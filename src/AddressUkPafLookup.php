@@ -34,12 +34,14 @@ class AddressUkPafLookup extends ControlPresenter
             }
             $searchParams = [];
             $searchParams[ 'postcode' ] = urlencode( $postCodeSearch );
+
+            $pafSettings = new PafSettings();
+            $searchParams[ 'apikey' ] = $pafSettings->ApiKey;
+
             if (isset( $houseNumber )) {
                 $searchParams[ 'num' ] = urlencode( $houseNumber );
             }
-            $pafSettings = new PafSettings();
-            $requestUrl = implode( '&', [ self::pafServerUrl, "apikey=" . $pafSettings->ApiKey,
-                http_build_query( $searchParams, '&' ) ] );
+            $requestUrl = implode( '&', [ self::pafServerUrl, http_build_query( $searchParams, '&' ) ] );
 
             $response = file_get_contents($requestUrl);
             return json_decode($response);
