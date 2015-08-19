@@ -10,6 +10,7 @@ class AddressUkPafLookup extends ControlPresenter
 {
     private $defaultValues;
     protected $view;
+    const pafServerUrl = "http://paf.gcdtech.com/paf-data.php?simple=1&api=2&output=json";
 
     public function __construct($name = "")
     {
@@ -31,11 +32,15 @@ class AddressUkPafLookup extends ControlPresenter
             if(!isset($postCodeSearch)) {
                 return json_decode([]);
             }
-            PafSettings::setPostCode($postCodeSearch);
-            if(isset($houseNumber)) {
-                PafSettings::setHouseNumber($houseNumber);
+            $searchParams = [];
+            $searchParams[ 'postcode' ] = urlencode( $postCodeSearch );
+            if (isset( $houseNumber )) {
+                $searchParams[ 'num' ] = urlencode( $houseNumber );
             }
-            $requestUrl = PafSettings::getUrlRequest();
+            $pafSettings = new PafSettings();
+            $requestUrl = implode( '&', [ self::pafServerUrl, "apikey=" . $pafSettings->ApiKey,
+                http_build_query( $searchParams, '&' ) ] );
+
             $response = file_get_contents($requestUrl);
             return json_decode($response);
         } );
