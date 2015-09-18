@@ -67,10 +67,10 @@ bridge.prototype.attachEvents = function() {
                         resultString +=
                             "<li class='result-item'>"
                             + "<span class='AddressLine1'>" + currItem['AddressLine1'] + "</span>"
-                            + "<span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>"
-                            + "<span class='Town'>" + currItem['Town'] + "</span>"
-                            + "<span class='County'>" + currItem['County'] + "</span>"
-                            + "<span class='Postcode'>" + currItem['Postcode'] + "</span>"
+                            + " <span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>"
+                            + " <span class='Town'>" + currItem['Town'] + "</span>"
+                            + " <span class='County'>" + currItem['County'] + "</span>"
+                            + " <span class='Postcode'>" + currItem['Postcode'] + "</span>"
                             + "</li>";
                     }
                     resultItemsList.html(resultString);
