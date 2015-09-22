@@ -91,11 +91,30 @@ bridge.prototype.attachEvents = function() {
     }
     // set address fields
     function setAddressFields(addressObj) {
-        line1.viewNode.value = addressObj['AddressLine1'];
-        line2.viewNode.value = addressObj['AddressLine2'];
-        town.viewNode.value = addressObj['Town'];
-        county.viewNode.value = addressObj['County'];
-        postCode.viewNode.value = addressObj['Postcode'];
+        if(addressObj['AddressLine1'] != undefined)
+        {
+            line1.viewNode.value = addressObj['AddressLine1'];
+        }
+
+        if(addressObj['AddressLine2'] != undefined)
+        {
+            line2.viewNode.value = addressObj['AddressLine2'];
+        }
+
+        if(addressObj['Town'] != undefined)
+        {
+            town.viewNode.value = addressObj['Town'];
+        }
+
+        if(addressObj['County'] != undefined)
+        {
+            county.viewNode.value = addressObj['County'];
+        }
+
+        if(addressObj['Postcode'] != undefined)
+        {
+            postCode.viewNode.value = addressObj['Postcode'];
+        }
     }
     // click event on resultItem of the search, map values in array and set address fields
     resultItemsList.on("click", "li.result-item", function() {
