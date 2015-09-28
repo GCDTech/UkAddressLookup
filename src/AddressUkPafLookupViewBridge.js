@@ -27,11 +27,16 @@ bridge.prototype.attachEvents = function() {
         county = self.findChildViewBridge('County'),
         postCode = self.findChildViewBridge('PostCode');
 
+    // if the's a post code we suppose that there's an address set
+    if(postCode.viewNode.value != '') {
+        showAddressFields();
+    } else {
+        // default configuration
+        manualAddressElements.hide();
+        searchLink.hide();
+        searchError.hide();
+    }
 
-    // default configuration
-    manualAddressElements.hide();
-    searchLink.hide();
-    searchError.hide();
     // address manual entry
     insertManualAddressLink.click(function() {
         showAddressFields()
@@ -44,6 +49,7 @@ bridge.prototype.attachEvents = function() {
         searchAddressElement.show();
         searchLink.hide();
     });
+
     // search address
     searchButton.attachClientEventHandler("OnButtonPressed", function() {
         searchResultsMsg.removeClass(alertClass).empty();
