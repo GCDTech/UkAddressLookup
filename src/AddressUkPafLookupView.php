@@ -49,7 +49,6 @@ class AddressUkPafLookupView extends ControlView
         );
 
         $country->SetSelectionItems( [ [ "", "Please select..." ], Country::getCountriesList() ] );
-        $country->setSelectedItems( "GB" );
     }
 
     public function printViewContent()

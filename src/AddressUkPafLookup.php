@@ -4,9 +4,9 @@
 namespace Gcd\UkAddressLookup;
 
 
-use Rhubarb\Leaf\Presenters\Controls\ControlPresenter;
+use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
 
-class AddressUkPafLookup extends ControlPresenter
+class AddressUkPafLookup extends CompositeControlPresenter
 {
     private $defaultValues;
     protected $view;
@@ -15,6 +15,13 @@ class AddressUkPafLookup extends ControlPresenter
     public function __construct($name = "")
     {
         parent::__construct($name);
+    }
+
+    protected function initialiseModel()
+    {
+        parent::initialiseModel();
+
+        $this->model->Country = "GB";
     }
 
     protected function createView()
