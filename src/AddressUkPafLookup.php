@@ -54,4 +54,10 @@ class AddressUkPafLookup extends CompositeControlPresenter
             return json_decode($response);
         } );
     }
+
+    protected function extractBoundData()
+    {
+        return $this->model;
+    }
+
 }
