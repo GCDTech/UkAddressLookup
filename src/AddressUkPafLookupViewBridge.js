@@ -98,7 +98,7 @@ bridge.prototype.attachEvents = function() {
                     }
                     resultItemsList.html(resultString);
                 } else {
-                    searchResultsMsg.addClass(alertClass).append("The search didn't give any result, try with another post code or enter the address manually");
+                    searchResultsMsg.addClass(alertClass).append("Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.");
                 }
             }
         });
