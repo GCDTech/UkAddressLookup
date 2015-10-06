@@ -19,6 +19,7 @@ bridge.prototype.attachEvents = function() {
         searchError = $(".search-error"),
         searchResultsMsg = $(".search-results-msg"),
         resultItemsList = $(".search-results-items"),
+        spinnerGif = $('.spinner'),
         searchButton = self.findChildViewBridge('Search'),
         // address fields
         line1 = self.findChildViewBridge('Line1'),
@@ -26,6 +27,9 @@ bridge.prototype.attachEvents = function() {
         town = self.findChildViewBridge('Town'),
         county = self.findChildViewBridge('County'),
         postCode = self.findChildViewBridge('PostCode');
+
+    // hide spinner on loading
+    spinnerGif.hide();
 
     // if the's a post code we suppose that there's an address set
     if(postCode.viewNode.value != '') {
@@ -52,6 +56,7 @@ bridge.prototype.attachEvents = function() {
 
     // search address
     searchButton.attachClientEventHandler("OnButtonPressed", function() {
+        spinnerGif.show();
         searchResultsMsg.removeClass(alertClass).empty();
         // if post Code is empty show an error message
         if(! postCodeSearch.viewNode.value) {
@@ -60,6 +65,7 @@ bridge.prototype.attachEvents = function() {
         }
 
         self.raiseServerEvent( "SearchPressed", houseNumber.viewNode.value, postCodeSearch.viewNode.value, function (response){
+            spinnerGif.hide();
              // single result fill address fields and fill them
             if(response.length == 1) {
                 showAddressFields();
