@@ -38,8 +38,8 @@ class AddressUkPafLookupView extends ControlView
     {
         $this->AddPresenters(
             $country = new DropDown("Country"),
-            new TextBox("HouseNumber", 20),
-            new TextBox("PostCodeSearch", 10),
+            $houseNumber = new TextBox("HouseNumber", 10),
+            $postCodeSearch = new TextBox("PostCodeSearch", 15),
             $search = new Button("Search", "Search", function() {}),
             new TextBox("Line1", 50),
             new TextBox("Line2", 30),
@@ -49,6 +49,8 @@ class AddressUkPafLookupView extends ControlView
         );
 
         $country->SetSelectionItems( [ [ "", "Please select..." ], Country::getCountriesList() ] );
+        $postCodeSearch->setPlaceholderText("Postcode");
+        $houseNumber->setPlaceholderText("No.");
     }
 
     public function printViewContent()
@@ -62,18 +64,14 @@ class AddressUkPafLookupView extends ControlView
             </div>
             <?php
                 $this->printFieldset( "", [
-                    "HouseNumber",
-                    "Post Code" => "PostCodeSearch",
-                    "Search"
+                    "Find Address" => "{HouseNumber}{PostCodeSearch}{Search}<span class='spinner'></span>"
                 ] );
             ?>
             <span class="search-error">Insert a valid Post Code</span>
         </div>
 
-        <br/>
-        <p class="manual-address-par">Don't know the postcode? <a class="manual-address-link" href='#'>enter their address manually</a>.</p>
-        <br/>
-        <a class="search-address-link" href='#'>Search again</a>
+        <p class="manual-address-par _help">Don't know the postcode? <a class="manual-address-link" href='#'>enter their address manually</a>.</p>
+        <p class="search-address-link _help"><b><a href='#'>Search again</a></b></p>
         <div class="manual-fields">
             <?php
                 $this->printFieldset( "", [
