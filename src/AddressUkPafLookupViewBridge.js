@@ -26,7 +26,8 @@ bridge.prototype.attachEvents = function() {
         line2 = self.findChildViewBridge('Line2'),
         town = self.findChildViewBridge('Town'),
         county = self.findChildViewBridge('County'),
-        postCode = self.findChildViewBridge('PostCode');
+        postCode = self.findChildViewBridge('PostCode'),
+        addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
 
     // hide spinner on loading
     spinnerGif.hide();
@@ -43,15 +44,19 @@ bridge.prototype.attachEvents = function() {
 
     // address manual entry
     insertManualAddressLink.click(function() {
+        searchResultsMsg.hide();
         showAddressFields()
+        return false;
     });
     // search address
     searchLink.click(function() {
+        searchResultsMsg.hide();
         resultItemsList.empty();
         manualAddressPar.show();
         manualAddressElements.hide();
         searchAddressElement.show();
         searchLink.hide();
+        return false;
     });
 
     // search address
@@ -78,14 +83,18 @@ bridge.prototype.attachEvents = function() {
                     var resultString = "";
                     for(var i in response) {
                         var currItem = response[i];
+
                         resultString +=
-                            "<li class='result-item'>"
-                            + "<span class='AddressLine1'>" + currItem['AddressLine1'] + "</span>"
-                            + " <span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>"
-                            + " <span class='Town'>" + currItem['Town'] + "</span>"
-                            + " <span class='County'>" + currItem['County'] + "</span>"
-                            + " <span class='Postcode'>" + currItem['Postcode'] + "</span>"
-                            + "</li>";
+                            "<li class='result-item'>";
+                        for(var i in addressProperties ) {
+                            var property = addressProperties[i],
+                                value = currItem[property];
+                            if(typeof value === 'undefined') {
+                                value = '';
+                            }
+                            resultString += " <span class='" + property + "'>" + value + "</span>";
+                        }
+                        resultString += "</li>";
                     }
                     resultItemsList.html(resultString);
                 } else {
@@ -141,6 +150,7 @@ bridge.prototype.attachEvents = function() {
         });
         setAddressFields(addressObj);
         showAddressFields();
+        return false;
     });
 };
 
