@@ -8,8 +8,6 @@ use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
 
 class AddressUkPafLookup extends CompositeControlPresenter
 {
-    private $defaultValues;
-    protected $view;
     const pafServerUrl = "http://paf.gcdtech.com/paf-data.php?simple=1&api=2&output=json";
 
     public function __construct($name = "")
@@ -26,14 +24,12 @@ class AddressUkPafLookup extends CompositeControlPresenter
 
     protected function createView()
     {
-        $view = new AddressUkPafLookupView();
-        return $view;
+        return new AddressUkPafLookupView();
     }
 
     protected function configureView()
     {
         parent::configureView();
-        $this->view->defaultValues = $this->defaultValues;
 
         $this->view->AttachEventHandler( "SearchPressed", function ( $houseNumber, $postCodeSearch ) {
             if(!isset($postCodeSearch)) {
