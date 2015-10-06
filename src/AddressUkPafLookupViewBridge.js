@@ -56,6 +56,7 @@ bridge.prototype.attachEvents = function() {
 
     // search address
     searchButton.attachClientEventHandler("OnButtonPressed", function() {
+        searchError.hide();
         spinnerGif.show();
         searchResultsMsg.removeClass(alertClass).empty();
         // if post Code is empty show an error message

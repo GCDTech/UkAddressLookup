@@ -44,7 +44,7 @@ class AddressUkPafLookup extends CompositeControlPresenter
             if (isset( $houseNumber )) {
                 $searchParams[ 'num' ] = urlencode( $houseNumber );
             }
-            $requestUrl = implode( '&', [ self::pafServerUrl, http_build_query( $searchParams, '&' ) ] );
+            $requestUrl = self::pafServerUrl . '&' . http_build_query( $searchParams, '&' );
 
             $response = file_get_contents($requestUrl);
             return json_decode($response);
