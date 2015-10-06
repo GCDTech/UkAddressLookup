@@ -60,6 +60,7 @@ bridge.prototype.attachEvents = function() {
         searchResultsMsg.removeClass(alertClass).empty();
         // if post Code is empty show an error message
         if(! postCodeSearch.viewNode.value) {
+            spinnerGif.hide();
             searchError.show();
             return false;
         }
