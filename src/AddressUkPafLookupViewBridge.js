@@ -21,6 +21,7 @@ bridge.prototype.attachEvents = function() {
         resultItemsList = $(".search-results-items"),
         spinnerGif = $('.spinner'),
         searchButton = self.findChildViewBridge('Search'),
+        country = self.findChildViewBridge('Country'),
         // address fields
         line1 = self.findChildViewBridge('Line1'),
         line2 = self.findChildViewBridge('Line2'),
@@ -45,7 +46,7 @@ bridge.prototype.attachEvents = function() {
     // address manual entry
     insertManualAddressLink.click(function() {
         searchResultsMsg.hide();
-        showAddressFields()
+        showAddressFields();
         return false;
     });
     // search address
@@ -57,6 +58,19 @@ bridge.prototype.attachEvents = function() {
         searchAddressElement.show();
         searchLink.hide();
         return false;
+    });
+
+    // if country changes and is different from uk show the manual entry
+    country.attachClientEventHandler("ValueChanged", function() {
+        var selectedCountry = country.getValue();
+        if(selectedCountry != 'GB') {
+            showAddressFields();
+        } else {
+            manualAddressElements.hide();
+            searchAddressElement.show();
+            searchLink.hide();
+            searchError.hide();
+        }
     });
 
     // search address
