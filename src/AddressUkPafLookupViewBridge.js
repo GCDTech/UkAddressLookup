@@ -43,6 +43,15 @@ bridge.prototype.attachEvents = function() {
         searchError.hide();
     }
 
+    if(country.getValue() != 'GB') {
+        showAddressFields();
+    } else {
+        manualAddressElements.hide();
+        searchAddressElement.show();
+        searchLink.hide();
+        searchError.hide();
+    }
+
     // address manual entry
     insertManualAddressLink.click(function() {
         searchResultsMsg.hide();
@@ -62,8 +71,7 @@ bridge.prototype.attachEvents = function() {
 
     // if country changes and is different from uk show the manual entry
     country.attachClientEventHandler("ValueChanged", function() {
-        var selectedCountry = country.getValue();
-        if(selectedCountry != 'GB') {
+        if(country.getValue() != 'GB') {
             showAddressFields();
         } else {
             manualAddressElements.hide();
