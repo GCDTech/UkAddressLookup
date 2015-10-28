@@ -136,6 +136,7 @@ bridge.prototype.attachEvents = function()
         // if post Code is empty show an error message
         if (!postCodeSearch.viewNode.value) {
             hide(spinnerGif);
+            addClass(searchError, alertClass)
             setText(searchError, 'Insert a valid Post Code');
             show(searchError);
             return false;
