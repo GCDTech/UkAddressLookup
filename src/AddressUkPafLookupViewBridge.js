@@ -28,11 +28,6 @@ bridge.prototype.attachEvents = function() {
         postCode = self.findChildViewBridge('PostCode'),
         addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
 
-    // hide spinner on loading
-    if (typeof spinnerGif != 'undefined') {
-        spinnerGif.hide();
-    }
-
     // if the's a post code we suppose that there's an address set
     if(postCode.viewNode.value != '') {
         showAddressFields();
