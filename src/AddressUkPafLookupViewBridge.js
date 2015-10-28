@@ -99,32 +99,36 @@ bridge.prototype.attachEvents = function()
             {
                 spinnerGif.hide();
                 // single result fill address fields and fill them
-                if(response) {
+                if (response) {
                     if (response.length == 1) {
                         showAddressFields();
                         setAddressFields(response[0]);
                     } else {
-                        searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
-                        var resultString = "";
-                        for (var i in response) {
-                            var currItem = response[i];
+                        if (response.length == 0) {
+                            searchResultsMsg.addClass(alertClass).append("Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.");
+                        } else {
+                            searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
+                            var resultString = "";
+                            for (var i in response) {
+                                var currItem = response[i];
 
-                            resultString +=
-                                "<li class='result-item'>";
-                            for (var i in addressProperties) {
-                                var property = addressProperties[i],
-                                    value = currItem[property];
-                                if (typeof value === 'undefined') {
-                                    value = '';
+                                resultString +=
+                                    "<li class='result-item'>";
+                                for (var i in addressProperties) {
+                                    var property = addressProperties[i],
+                                        value = currItem[property];
+                                    if (typeof value === 'undefined') {
+                                        value = '';
+                                    }
+                                    resultString += " <span class='" + property + "'>" + value + "</span>";
                                 }
-                                resultString += " <span class='" + property + "'>" + value + "</span>";
+                                resultString += "</li>";
                             }
-                            resultString += "</li>";
+                            resultItemsList.html(resultString);
                         }
-                        resultItemsList.html(resultString);
                     }
-                }  else {
-                    searchResultsMsg.addClass(alertClass).append("Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.");
+                } else {
+                    searchResultsMsg.addClass(alertClass).append("Sorry, a problem occurred on searching the address, enter the address manually.");
                 }
             });
         return false;
