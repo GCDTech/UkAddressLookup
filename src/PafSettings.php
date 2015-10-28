@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Gcd\UkAddressLookup;
-
 
 use Rhubarb\Crown\Settings;
 
@@ -11,4 +9,6 @@ use Rhubarb\Crown\Settings;
  *
  * @property string $ApiKey
  */
-class PafSettings extends Settings {}
+class PafSettings extends Settings
+{
+}

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Gcd\UkAddressLookup;
-
 
 use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
 
@@ -31,24 +29,25 @@ class AddressUkPafLookup extends CompositeControlPresenter
     {
         parent::configureView();
 
-        $this->view->AttachEventHandler( "SearchPressed", function ( $houseNumber, $postCodeSearch ) {
-            if(!isset($postCodeSearch)) {
+        $this->view->AttachEventHandler("SearchPressed", function ($houseNumber, $postCodeSearch) {
+            if ( ! isset( $postCodeSearch )) {
                 return json_decode([]);
             }
-            $searchParams = [];
-            $searchParams[ 'postcode' ] = urlencode( $postCodeSearch );
+            $searchParams             = [];
+            $searchParams['postcode'] = urlencode($postCodeSearch);
 
-            $pafSettings = new PafSettings();
-            $searchParams[ 'apikey' ] = $pafSettings->ApiKey;
+            $pafSettings            = new PafSettings();
+            $searchParams['apikey'] = $pafSettings->ApiKey;
 
             if (isset( $houseNumber )) {
-                $searchParams[ 'num' ] = urlencode( $houseNumber );
+                $searchParams['num'] = urlencode($houseNumber);
             }
-            $requestUrl = self::pafServerUrl . '&' . http_build_query( $searchParams, '&' );
+            $requestUrl = self::pafServerUrl . '&' . http_build_query($searchParams, '&');
 
             $response = file_get_contents($requestUrl);
+
             return json_decode($response);
-        } );
+        });
     }
 
     protected function extractBoundData()
