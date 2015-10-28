@@ -49,9 +49,7 @@ bridge.prototype.attachEvents = function()
         showAddressFields();
         searchLink.hide();
     } else {
-        manualAddressElements.hide();
-        searchAddressElement.show();
-        searchLink.hide();
+        showSearchFields()
         searchError.hide();
     }
 
@@ -67,10 +65,7 @@ bridge.prototype.attachEvents = function()
     {
         searchResultsMsg.hide();
         resultItemsList.empty();
-        manualAddressPar.show();
-        manualAddressElements.hide();
-        searchAddressElement.show();
-        searchLink.hide();
+        showSearchFields();
         return false;
     });
 
@@ -81,9 +76,7 @@ bridge.prototype.attachEvents = function()
             showAddressFields();
             searchLink.hide();
         } else {
-            manualAddressElements.hide();
-            searchAddressElement.show();
-            searchLink.hide();
+            showSearchFields();
             searchError.hide();
         }
     });
@@ -136,6 +129,15 @@ bridge.prototype.attachEvents = function()
             });
         return false;
     });
+
+    // show fields for search an address
+    function showSearchFields()
+    {
+        manualAddressPar.show();
+        manualAddressElements.hide();
+        searchAddressElement.show();
+        searchLink.hide();
+    }
 
     // show address fields
     function showAddressFields()
