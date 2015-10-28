@@ -12,7 +12,6 @@ bridge.prototype.attachEvents = function()
     var self = this,
         alertClass = "c-alert",
         manualAddressElements = document.getElementById("manual-fields"),
-        resultItems = document.getElementsByClassName("result-item"),
         searchAddressElement = document.getElementById("search-fields"),
         insertManualAddressLink = document.getElementById("manual-address-link"),
         manualAddressPar = document.getElementById("manual-address-par"),
@@ -59,10 +58,28 @@ bridge.prototype.attachEvents = function()
         el.classList.add(className);
     }
 
+    // show fields for search an address
+    function showSearchFields()
+    {
+        show(manualAddressPar);
+        hide(manualAddressElements);
+        show(searchAddressElement);
+        hide(searchAddressPar);
+    }
+
+    // show address fields
+    function showAddressFields()
+    {
+        hide(manualAddressPar);
+        show(manualAddressElements);
+        hide(searchAddressElement);
+        show(searchAddressPar);
+    }
+
     // hide spinner on loading
     hide(spinnerGif);
 
-    // if the's a post code we suppose that there's an address set
+    // if there's a post code we suppose that there's an address set
     if (postCode.viewNode.value != '') {
         showAddressFields();
     } else {
@@ -128,8 +145,8 @@ bridge.prototype.attachEvents = function()
             function(response)
             {
                 hide(spinnerGif);
-                // single result fill address fields and fill them
                 if (response) {
+                    // single result fill address fields and fill them
                     if (response.length == 1) {
                         showAddressFields();
                         setAddressFields(response[0]);
@@ -168,24 +185,6 @@ bridge.prototype.attachEvents = function()
         return false;
     });
 
-    // show fields for search an address
-    function showSearchFields()
-    {
-        show(manualAddressPar);
-        hide(manualAddressElements);
-        show(searchAddressElement);
-        hide(searchAddressPar);
-    }
-
-    // show address fields
-    function showAddressFields()
-    {
-        hide(manualAddressPar);
-        show(manualAddressElements);
-        hide(searchAddressElement);
-        show(searchAddressPar);
-    }
-
     // set address fields
     function setAddressFields(addressObj)
     {
@@ -211,20 +210,25 @@ bridge.prototype.attachEvents = function()
     }
 
     // click event on resultItem of the search, map values in array and set address fields
-//    resultItemsList.on("click", "li.result-item", function()
-//    {
-//        var itemValues = $(this).find("span"),
-//            addressObj = {};
-//
-//        itemValues.each(function()
-//        {
-//            var currEl = $(this);
-//            addressObj[currEl.attr('class')] = currEl.text();
-//        });
-//        setAddressFields(addressObj);
-//        showAddressFields();
-//        return false;
-//    });
+    resultItemsList.addEventListener('click', function(e)
+    {
+        var currEl = e.target,
+            addressObj = {};
+        if (currEl.tagName == 'SPAN') {
+            currEl = currEl.parentElement;
+        }
+        var childrenNodes = currEl.getElementsByTagName('SPAN');
+
+        for (var i in childrenNodes) {
+            var childNode = childrenNodes[i];
+            if(childNode.classList != undefined ) {
+                addressObj[childNode.classList[0]] = childNode.innerHTML;
+            }
+        }
+        setAddressFields(addressObj);
+        showAddressFields();
+        return false;
+    });
 };
 
 window.rhubarb.viewBridgeClasses.AddressUkPafLookupViewBridge = bridge;
