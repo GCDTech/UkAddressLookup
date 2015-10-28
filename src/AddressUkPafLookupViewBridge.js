@@ -11,17 +11,19 @@ bridge.prototype.attachEvents = function()
 
     var self = this,
         alertClass = "c-alert",
-        manualAddressElements = $(".manual-fields"),
-        searchAddressElement = $(".search-fields"),
-        insertManualAddressLink = $(".manual-address-link"),
-        manualAddressPar = $(".manual-address-par"),
-        searchLink = $(".search-address-link"),
+        manualAddressElements = document.getElementById("manual-fields"),
+        resultItems = document.getElementsByClassName("result-item"),
+        searchAddressElement = document.getElementById("search-fields"),
+        insertManualAddressLink = document.getElementById("manual-address-link"),
+        manualAddressPar = document.getElementById("manual-address-par"),
+        searchAddressPar = document.getElementById("search-address-par"),
+        searchLink = document.getElementById("search-address-link"),
         houseNumber = self.findChildViewBridge('HouseNumber'),
         postCodeSearch = self.findChildViewBridge('PostCodeSearch'),
-        searchError = $(".search-error"),
-        searchResultsMsg = $(".search-results-msg"),
-        resultItemsList = $(".search-results-items"),
-        spinnerGif = $('.spinner'),
+        searchError = document.getElementById("search-error"),
+        searchResultsMsg = document.getElementById("search-results-msg"),
+        resultItemsList = document.getElementById("search-results-items"),
+        spinnerGif = document.getElementById('spinner'),
         searchButton = self.findChildViewBridge('Search'),
         country = self.findChildViewBridge('Country'),
     // address fields
@@ -32,17 +34,33 @@ bridge.prototype.attachEvents = function()
         postCode = self.findChildViewBridge('PostCode'),
         addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
 
+    function hide(el) {
+        el.style.display = 'none';
+    }
+    function show(el) {
+        el.style.display = 'block';
+    }
+    function setText(el, text) {
+        el.innerHTML = text;
+    }
+    function removeClass(el, className) {
+        el.classList.remove( className );
+    }
+    function addClass(el, className) {
+        el.classList.add( className );
+    }
+
     // hide spinner on loading
-    spinnerGif.hide();
+    hide(spinnerGif);
 
     // if the's a post code we suppose that there's an address set
-    if (postCode.viewNode.value != '') {
+    if(postCode.viewNode.value != '') {
         showAddressFields();
     } else {
         // default configuration
-        manualAddressElements.hide();
-        searchLink.hide();
-        searchError.hide();
+        hide(manualAddressElements);
+        hide(searchAddressPar);
+        hide(searchError);
     }
 
     if (country.getValue() != 'GB') {
@@ -50,21 +68,22 @@ bridge.prototype.attachEvents = function()
         searchLink.hide();
     } else {
         showSearchFields()
-        searchError.hide();
+        hide(searchError);
     }
 
     // address manual entry
     insertManualAddressLink.click(function()
     {
-        searchResultsMsg.hide();
+        console.log(insertManualAddressLink);
+        hide(searchResultsMsg);
         showAddressFields();
         return false;
     });
     // search address
     searchLink.click(function()
     {
-        searchResultsMsg.hide();
-        resultItemsList.empty();
+        hide(searchResultsMsg);
+        setText(resultItemsList, '');
         showSearchFields();
         return false;
     });
@@ -74,23 +93,26 @@ bridge.prototype.attachEvents = function()
     {
         if (country.getValue() != 'GB') {
             showAddressFields();
-            searchLink.hide();
+            hide(searchLink);
         } else {
             showSearchFields();
-            searchError.hide();
+            hide(searchError);
         }
     });
 
     // search address
     searchButton.attachClientEventHandler("OnButtonPressed", function()
     {
-        searchError.hide();
-        spinnerGif.show();
-        searchResultsMsg.removeClass(alertClass).empty();
+        hide(searchError);
+        show(spinnerGif);
+
+        setText(searchResultsMsg, '');
+        removeClass(searchResultsMsg, alertClass);
         // if post Code is empty show an error message
         if (!postCodeSearch.viewNode.value) {
-            spinnerGif.hide();
-            searchError.show();
+            hide(spinnerGif);
+            setText(searchError, 'Insert a valid Post Code');
+            show(searchError);
             return false;
         }
 
@@ -104,7 +126,8 @@ bridge.prototype.attachEvents = function()
                         showAddressFields();
                         setAddressFields(response[0]);
                     } else {
-                        searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
+                        addClass(searchResultsMsg, alertClass);
+                        setText(searchResultsMsg, searchResultsMsg.innerHTML +  "We found " + response.length + " results");
                         var resultString = "";
                         for (var i in response) {
                             var currItem = response[i];
@@ -121,10 +144,12 @@ bridge.prototype.attachEvents = function()
                             }
                             resultString += "</li>";
                         }
-                        resultItemsList.html(resultString);
+                        setText(resultItemsList, resultString);
                     }
                 }  else {
-                    searchResultsMsg.addClass(alertClass).append("Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.");
+                    addClass(searchResultsMsg, alertClass);
+                    var errMsg = "Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.";
+                    setText( searchResultsMsg, searchResultsMsg.innerHTML + errMsg );
                 }
             });
         return false;
@@ -133,19 +158,19 @@ bridge.prototype.attachEvents = function()
     // show fields for search an address
     function showSearchFields()
     {
-        manualAddressPar.show();
-        manualAddressElements.hide();
-        searchAddressElement.show();
-        searchLink.hide();
+        show(manualAddressPar);
+        hide(manualAddressElements);
+        show(searchAddressElement);
+        hide(searchLink);
     }
 
     // show address fields
     function showAddressFields()
     {
-        manualAddressPar.hide();
-        manualAddressElements.show();
-        searchAddressElement.hide();
-        searchLink.show();
+        show(manualAddressPar);
+        show(manualAddressElements);
+        hide(searchAddressElement);
+        show(searchLink);
     }
 
     // set address fields
@@ -173,20 +198,20 @@ bridge.prototype.attachEvents = function()
     }
 
     // click event on resultItem of the search, map values in array and set address fields
-    resultItemsList.on("click", "li.result-item", function()
-    {
-        var itemValues = $(this).find("span"),
-            addressObj = {};
-
-        itemValues.each(function()
-        {
-            var currEl = $(this);
-            addressObj[currEl.attr('class')] = currEl.text();
-        });
-        setAddressFields(addressObj);
-        showAddressFields();
-        return false;
-    });
+//    resultItemsList.on("click", "li.result-item", function()
+//    {
+//        var itemValues = $(this).find("span"),
+//            addressObj = {};
+//
+//        itemValues.each(function()
+//        {
+//            var currEl = $(this);
+//            addressObj[currEl.attr('class')] = currEl.text();
+//        });
+//        setAddressFields(addressObj);
+//        showAddressFields();
+//        return false;
+//    });
 };
 
 window.rhubarb.viewBridgeClasses.AddressUkPafLookupViewBridge = bridge;
