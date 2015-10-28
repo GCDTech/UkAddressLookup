@@ -65,7 +65,7 @@ bridge.prototype.attachEvents = function()
 
     if (country.getValue() != 'GB') {
         showAddressFields();
-        searchLink.hide();
+        hide(searchLink);
     } else {
         showSearchFields()
         hide(searchError);
