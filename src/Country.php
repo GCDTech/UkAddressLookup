@@ -258,12 +258,7 @@ class Country
 
     public static function getCountriesList()
     {
-        $countriesList = [];
-        foreach (self::$countries as $key => $value) {
-            $countriesList[] = [$key, $value];
-        }
-
-        return $countriesList;
+        return self::$countries;
     }
 
     public static function getCountry($countryCode)
