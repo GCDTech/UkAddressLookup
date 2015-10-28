@@ -29,7 +29,9 @@ bridge.prototype.attachEvents = function() {
         addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
 
     // hide spinner on loading
-    spinnerGif.hide();
+    if (typeof spinnerGif != 'undefined') {
+        spinnerGif.hide();
+    }
 
     // if the's a post code we suppose that there's an address set
     if(postCode.viewNode.value != '') {
