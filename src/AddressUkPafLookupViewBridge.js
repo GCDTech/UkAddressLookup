@@ -133,6 +133,10 @@ bridge.prototype.attachEvents = function()
                     if (response.length == 1) {
                         showAddressFields();
                         setAddressFields(response[0]);
+                    } else if(response.length == 0) {
+                        addClass(searchResultsMsg, alertClass);
+                        var resultMsg = "Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.";
+                        setText(searchResultsMsg, searchResultsMsg.innerHTML + resultMsg);
                     } else {
                         addClass(searchResultsMsg, alertClass);
                         setText(searchResultsMsg,
@@ -157,7 +161,7 @@ bridge.prototype.attachEvents = function()
                     }
                 } else {
                     addClass(searchResultsMsg, alertClass);
-                    var errMsg = "Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.";
+                    var errMsg = "Sorry, a problem occurred on searching the address, enter the address manually.";
                     setText(searchResultsMsg, searchResultsMsg.innerHTML + errMsg);
                 }
             });
