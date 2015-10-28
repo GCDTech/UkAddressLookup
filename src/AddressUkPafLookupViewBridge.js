@@ -34,27 +34,36 @@ bridge.prototype.attachEvents = function()
         postCode = self.findChildViewBridge('PostCode'),
         addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
 
-    function hide(el) {
+    function hide(el)
+    {
         el.style.display = 'none';
     }
-    function show(el) {
+
+    function show(el)
+    {
         el.style.display = 'block';
     }
-    function setText(el, text) {
+
+    function setText(el, text)
+    {
         el.innerHTML = text;
     }
-    function removeClass(el, className) {
-        el.classList.remove( className );
+
+    function removeClass(el, className)
+    {
+        el.classList.remove(className);
     }
-    function addClass(el, className) {
-        el.classList.add( className );
+
+    function addClass(el, className)
+    {
+        el.classList.add(className);
     }
 
     // hide spinner on loading
     hide(spinnerGif);
 
     // if the's a post code we suppose that there's an address set
-    if(postCode.viewNode.value != '') {
+    if (postCode.viewNode.value != '') {
         showAddressFields();
     } else {
         // default configuration
@@ -65,35 +74,34 @@ bridge.prototype.attachEvents = function()
 
     if (country.getValue() != 'GB') {
         showAddressFields();
-        hide(searchLink);
+        hide(searchAddressPar);
     } else {
-        showSearchFields()
+        showSearchFields();
         hide(searchError);
     }
 
     // address manual entry
-    insertManualAddressLink.click(function()
+    insertManualAddressLink.onclick = function()
     {
-        console.log(insertManualAddressLink);
         hide(searchResultsMsg);
         showAddressFields();
         return false;
-    });
+    };
     // search address
-    searchLink.click(function()
+    searchLink.onclick = function()
     {
         hide(searchResultsMsg);
         setText(resultItemsList, '');
         showSearchFields();
         return false;
-    });
+    };
 
     // if country changes and is different from uk show the manual entry
     country.attachClientEventHandler("ValueChanged", function()
     {
         if (country.getValue() != 'GB') {
             showAddressFields();
-            hide(searchLink);
+            hide(searchAddressPar);
         } else {
             showSearchFields();
             hide(searchError);
@@ -119,15 +127,16 @@ bridge.prototype.attachEvents = function()
         self.raiseServerEvent("SearchPressed", houseNumber.viewNode.value, postCodeSearch.viewNode.value,
             function(response)
             {
-                spinnerGif.hide();
+                hide(spinnerGif);
                 // single result fill address fields and fill them
-                if(response) {
+                if (response) {
                     if (response.length == 1) {
                         showAddressFields();
                         setAddressFields(response[0]);
                     } else {
                         addClass(searchResultsMsg, alertClass);
-                        setText(searchResultsMsg, searchResultsMsg.innerHTML +  "We found " + response.length + " results");
+                        setText(searchResultsMsg,
+                            searchResultsMsg.innerHTML + "We found " + response.length + " results");
                         var resultString = "";
                         for (var i in response) {
                             var currItem = response[i];
@@ -146,10 +155,10 @@ bridge.prototype.attachEvents = function()
                         }
                         setText(resultItemsList, resultString);
                     }
-                }  else {
+                } else {
                     addClass(searchResultsMsg, alertClass);
                     var errMsg = "Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.";
-                    setText( searchResultsMsg, searchResultsMsg.innerHTML + errMsg );
+                    setText(searchResultsMsg, searchResultsMsg.innerHTML + errMsg);
                 }
             });
         return false;
@@ -161,16 +170,16 @@ bridge.prototype.attachEvents = function()
         show(manualAddressPar);
         hide(manualAddressElements);
         show(searchAddressElement);
-        hide(searchLink);
+        hide(searchAddressPar);
     }
 
     // show address fields
     function showAddressFields()
     {
-        show(manualAddressPar);
+        hide(manualAddressPar);
         show(manualAddressElements);
         hide(searchAddressElement);
-        show(searchLink);
+        show(searchAddressPar);
     }
 
     // set address fields

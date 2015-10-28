@@ -63,7 +63,7 @@ class AddressUkPafLookupView extends ControlView
         <div id="search-fields">
             <div id="search-results">
                 <span id="search-results-msg"></span>
-                <ul id="search-results-items"></ul>
+                <ul id="search-results-items" class="search-results-items"></ul>
             </div>
             <?php
             $this->printFieldset("", [
