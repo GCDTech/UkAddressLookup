@@ -47,6 +47,7 @@ bridge.prototype.attachEvents = function()
 
     if (country.getValue() != 'GB') {
         showAddressFields();
+        searchLink.hide();
     } else {
         manualAddressElements.hide();
         searchAddressElement.show();
@@ -78,6 +79,7 @@ bridge.prototype.attachEvents = function()
     {
         if (country.getValue() != 'GB') {
             showAddressFields();
+            searchLink.hide();
         } else {
             manualAddressElements.hide();
             searchAddressElement.show();
