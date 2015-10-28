@@ -44,9 +44,13 @@ class AddressUkPafLookup extends CompositeControlPresenter
             }
             $requestUrl = self::pafServerUrl . '&' . http_build_query($searchParams, '&');
 
-            $response = file_get_contents($requestUrl);
+            try {
+                $response = file_get_contents($requestUrl);
+                return json_decode($response);
 
-            return json_decode($response);
+            } catch (\Exception $e) {
+                return null;
+            }
         });
     }
 

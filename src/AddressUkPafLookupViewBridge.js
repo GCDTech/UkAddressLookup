@@ -104,11 +104,11 @@ bridge.prototype.attachEvents = function()
             {
                 spinnerGif.hide();
                 // single result fill address fields and fill them
-                if (response.length == 1) {
-                    showAddressFields();
-                    setAddressFields(response[0]);
-                } else {
-                    if (response.length > 0) {
+                if(response) {
+                    if (response.length == 1) {
+                        showAddressFields();
+                        setAddressFields(response[0]);
+                    } else {
                         searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
                         var resultString = "";
                         for (var i in response) {
@@ -127,9 +127,9 @@ bridge.prototype.attachEvents = function()
                             resultString += "</li>";
                         }
                         resultItemsList.html(resultString);
-                    } else {
-                        searchResultsMsg.addClass(alertClass).append("Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.");
                     }
+                }  else {
+                    searchResultsMsg.addClass(alertClass).append("Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.");
                 }
             });
         return false;
