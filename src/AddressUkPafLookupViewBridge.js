@@ -68,18 +68,20 @@ bridge.prototype.attachEvents = function() {
             } else {
                 if(response.length > 0) {
                     searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
-                    var resultString = "";
+                    var resultString = "<select>";
                     for(var i in response) {
                         var currItem = response[i];
                         resultString +=
-                            "<li class='result-item'>"
+                            "<option class='result-item'>"
                             + "<span class='AddressLine1'>" + currItem['AddressLine1'] + "</span>"
                             + " <span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>"
                             + " <span class='Town'>" + currItem['Town'] + "</span>"
                             + " <span class='County'>" + currItem['County'] + "</span>"
                             + " <span class='Postcode'>" + currItem['Postcode'] + "</span>"
-                            + "</li>";
+                            + "</option>";
                     }
+                    resultString += "</select>";
+
                     resultItemsList.html(resultString);
                 } else {
                     searchResultsMsg.addClass(alertClass).append("The search didn't give any result, try with another post code or enter the address manually");
