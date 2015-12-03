@@ -71,14 +71,13 @@ bridge.prototype.attachEvents = function() {
                     var resultString = "<select>";
                     for(var i in response) {
                         var currItem = response[i];
-                        resultString +=
-                            "<option class='result-item'>"
-                            + "<span class='AddressLine1'>" + currItem['AddressLine1'] + "</span>"
-                            + " <span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>"
-                            + " <span class='Town'>" + currItem['Town'] + "</span>"
-                            + " <span class='County'>" + currItem['County'] + "</span>"
-                            + " <span class='Postcode'>" + currItem['Postcode'] + "</span>"
-                            + "</option>";
+                        resultString += "<option class='result-item'>";
+                        resultString += (currItem['AddressLine1']) ? "<span class='AddressLine1'>" + currItem['AddressLine1'] + "</span>" : "";
+                        resultString += (currItem['AddressLine2']) ? " <span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>" : "";
+                        resultString += (currItem['Town']) ? " <span class='Town'>" + currItem['Town'] + "</span>" : "";
+                        resultString += (currItem['County']) ? " <span class='County'>" + currItem['County'] + "</span>" : "";
+                        resultString += (currItem['Postcode']) ? " <span class='Postcode'>" + currItem['Postcode'] + "</span>" : "";
+                        resultString += "</option>";
                     }
                     resultString += "</select>";
 
