@@ -68,15 +68,17 @@ bridge.prototype.attachEvents = function() {
             } else {
                 if(response.length > 0) {
                     searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
-                    var resultString = "<select>";
+                    var resultString = "<select class='address-dropdown' onchange='DropdownChange();'>";
                     for(var i in response) {
-                        var currItem = response[i];
-                        resultString += "<option class='result-item'>";
-                        resultString += (currItem['AddressLine1']) ? "<span class='AddressLine1'>" + currItem['AddressLine1'] + "</span>" : "";
-                        resultString += (currItem['AddressLine2']) ? " <span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>" : "";
-                        resultString += (currItem['Town']) ? " <span class='Town'>" + currItem['Town'] + "</span>" : "";
-                        resultString += (currItem['County']) ? " <span class='County'>" + currItem['County'] + "</span>" : "";
-                        resultString += (currItem['Postcode']) ? " <span class='Postcode'>" + currItem['Postcode'] + "</span>" : "";
+                        var currItem = response[i],
+                            data = JSON.stringify(currItem)
+
+                        resultString += "<option class='result-item' data-value='" + data + "'>";
+                        resultString += currItem['AddressLine1'] ? currItem['AddressLine1'] : "";
+                        resultString += (currItem['AddressLine2']) ? " " + currItem['AddressLine2'] : "";
+                        resultString += (currItem['Town']) ? " " + currItem['Town'] : "";
+                        resultString += (currItem['County']) ? " " + currItem['County'] : "";
+                        resultString += (currItem['Postcode']) ? " " + currItem['Postcode'] : "";
                         resultString += "</option>";
                     }
                     resultString += "</select>";
@@ -124,18 +126,13 @@ bridge.prototype.attachEvents = function() {
             postCode.viewNode.value = addressObj['Postcode'];
         }
     }
-    // click event on resultItem of the search, map values in array and set address fields
-    resultItemsList.on("click", "li.result-item", function() {
-        var itemValues = $(this).find("span"),
-            addressObj = {};
 
-        itemValues.each(function() {
-            var currEl = $(this);
-            addressObj[ currEl.attr('class') ] = currEl.text();
-        });
-        setAddressFields(addressObj);
+    DropdownChange = function () {
+        var selected = $('.address-dropdown option:selected');
+
+        setAddressFields(selected.data('value'));
         showAddressFields();
-    });
+    };
 };
 
 window.rhubarb.viewBridgeClasses.AddressUkPafLookupViewBridge = bridge;
