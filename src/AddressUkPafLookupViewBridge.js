@@ -1,11 +1,13 @@
-var bridge = function (presenterPath) {
+var bridge = function(presenterPath)
+{
     window.rhubarb.viewBridgeClasses.HtmlViewBridge.apply(this, arguments);
 };
 
 bridge.prototype = new window.rhubarb.viewBridgeClasses.HtmlViewBridge();
 bridge.prototype.constructor = bridge;
 
-bridge.prototype.attachEvents = function() {
+bridge.prototype.attachEvents = function()
+{
 
     var self = this,
         alertClass = "c-alert",
@@ -19,8 +21,10 @@ bridge.prototype.attachEvents = function() {
         searchError = $(".search-error"),
         searchResultsMsg = $(".search-results-msg"),
         resultItemsList = $(".search-results-items"),
+        spinnerGif = $('.spinner'),
         searchButton = self.findChildViewBridge('Search'),
-        // address fields
+        country = self.findChildViewBridge('Country'),
+    // address fields
         line1 = self.findChildViewBridge('Line1'),
         line2 = self.findChildViewBridge('Line2'),
         town = self.findChildViewBridge('Town'),
@@ -28,8 +32,11 @@ bridge.prototype.attachEvents = function() {
         postCode = self.findChildViewBridge('PostCode'),
         addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
 
+    // hide spinner on loading
+    spinnerGif.hide();
+
     // if the's a post code we suppose that there's an address set
-    if(postCode.viewNode.value != '') {
+    if (postCode.viewNode.value != '') {
         showAddressFields();
     } else {
         // default configuration
@@ -38,102 +45,151 @@ bridge.prototype.attachEvents = function() {
         searchError.hide();
     }
 
+    if (country.getValue() != 'GB') {
+        showAddressFields();
+        searchLink.hide();
+    } else {
+        showSearchFields()
+        searchError.hide();
+    }
+
     // address manual entry
-    insertManualAddressLink.click(function() {
-        showAddressFields()
+    insertManualAddressLink.click(function()
+    {
+        searchResultsMsg.hide();
+        showAddressFields();
+        return false;
     });
     // search address
-    searchLink.click(function() {
+    searchLink.click(function()
+    {
+        searchResultsMsg.hide();
         resultItemsList.empty();
-        manualAddressPar.show();
-        manualAddressElements.hide();
-        searchAddressElement.show();
-        searchLink.hide();
+        showSearchFields();
+        return false;
+    });
+
+    // if country changes and is different from uk show the manual entry
+    country.attachClientEventHandler("ValueChanged", function()
+    {
+        if (country.getValue() != 'GB') {
+            showAddressFields();
+            searchLink.hide();
+        } else {
+            showSearchFields();
+            searchError.hide();
+        }
     });
 
     // search address
-    searchButton.attachClientEventHandler("OnButtonPressed", function() {
+    searchButton.attachClientEventHandler("OnButtonPressed", function()
+    {
+        searchError.hide();
+        spinnerGif.show();
         searchResultsMsg.removeClass(alertClass).empty();
         // if post Code is empty show an error message
-        if(! postCodeSearch.viewNode.value) {
+        if (!postCodeSearch.viewNode.value) {
+            spinnerGif.hide();
             searchError.show();
             return false;
         }
 
-        self.raiseServerEvent( "SearchPressed", houseNumber.viewNode.value, postCodeSearch.viewNode.value, function (response){
-             // single result fill address fields and fill them
-            if(response.length == 1) {
-                showAddressFields();
-                setAddressFields(response[0]);
-            } else {
-                if(response.length > 0) {
-                    searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
-                    var resultString = "";
-                    for(var i in response) {
-                        var currItem = response[i];
-                        resultString +=
-                            "<li class='result-item'>"
-                            + "<span class='AddressLine1'>" + currItem['AddressLine1'] + "</span>"
-                            + " <span class='AddressLine2'>" + currItem['AddressLine2'] + "</span>"
-                            + " <span class='Town'>" + currItem['Town'] + "</span>"
-                            + " <span class='County'>" + currItem['County'] + "</span>"
-                            + " <span class='Postcode'>" + currItem['Postcode'] + "</span>"
-                            + "</li>";
+        self.raiseServerEvent("SearchPressed", houseNumber.viewNode.value, postCodeSearch.viewNode.value,
+            function(response)
+            {
+                spinnerGif.hide();
+                // single result fill address fields and fill them
+                if (response) {
+                    if (response.length == 1) {
+                        showAddressFields();
+                        setAddressFields(response[0]);
+                    } else {
+                        if (response.length == 0) {
+                            searchResultsMsg.addClass(alertClass).append("Sorry, we couldn't find any addresses matching your search. Please verify the postcode, or enter the address manually.");
+                        } else {
+                            searchResultsMsg.addClass(alertClass).append("We found " + response.length + " results");
+                            var resultString = "";
+                            for (var i in response) {
+                                var currItem = response[i];
+
+                                resultString +=
+                                    "<li class='result-item'>";
+                                for (var i in addressProperties) {
+                                    var property = addressProperties[i],
+                                        value = currItem[property];
+                                    if (typeof value === 'undefined') {
+                                        value = '';
+                                    }
+                                    resultString += " <span class='" + property + "'>" + value + "</span>";
+                                }
+                                resultString += "</li>";
+                            }
+                            resultItemsList.html(resultString);
+                        }
                     }
-                    resultItemsList.html(resultString);
                 } else {
-                    searchResultsMsg.addClass(alertClass).append("The search didn't give any result, try with another post code or enter the address manually");
+                    searchResultsMsg.addClass(alertClass).append("Sorry, a problem occurred on searching the address, enter the address manually.");
                 }
-            }
-        });
+            });
         return false;
     });
 
+    // show fields for search an address
+    function showSearchFields()
+    {
+        manualAddressPar.show();
+        manualAddressElements.hide();
+        searchAddressElement.show();
+        searchLink.hide();
+    }
+
     // show address fields
-    function showAddressFields() {
+    function showAddressFields()
+    {
         manualAddressPar.hide();
         manualAddressElements.show();
         searchAddressElement.hide();
         searchLink.show();
     }
+
     // set address fields
-    function setAddressFields(addressObj) {
-        if(addressObj['AddressLine1'] != undefined)
-        {
+    function setAddressFields(addressObj)
+    {
+        if (addressObj['AddressLine1'] != undefined) {
             line1.viewNode.value = addressObj['AddressLine1'];
         }
 
-        if(addressObj['AddressLine2'] != undefined)
-        {
+        if (addressObj['AddressLine2'] != undefined) {
             line2.viewNode.value = addressObj['AddressLine2'];
         }
 
-        if(addressObj['Town'] != undefined)
-        {
+        if (addressObj['Town'] != undefined) {
             town.viewNode.value = addressObj['Town'];
         }
 
-        if(addressObj['County'] != undefined)
-        {
+        if (addressObj['County'] != undefined) {
             county.viewNode.value = addressObj['County'];
         }
 
-        if(addressObj['Postcode'] != undefined)
-        {
+        if (addressObj['Postcode'] != undefined) {
             postCode.viewNode.value = addressObj['Postcode'];
         }
     }
+
     // click event on resultItem of the search, map values in array and set address fields
-    resultItemsList.on("click", "li.result-item", function() {
+    resultItemsList.on("click", "li.result-item", function()
+    {
         var itemValues = $(this).find("span"),
             addressObj = {};
 
-        itemValues.each(function() {
+        itemValues.each(function()
+        {
             var currEl = $(this);
-            addressObj[ currEl.attr('class') ] = currEl.text();
+            addressObj[currEl.attr('class')] = currEl.text();
         });
         setAddressFields(addressObj);
         showAddressFields();
+        return false;
     });
 };
 

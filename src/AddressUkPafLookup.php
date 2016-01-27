@@ -1,15 +1,11 @@
 <?php
 
-
 namespace Gcd\UkAddressLookup;
-
 
 use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
 
 class AddressUkPafLookup extends CompositeControlPresenter
 {
-    private $defaultValues;
-    protected $view;
     const pafServerUrl = "http://paf.gcdtech.com/paf-data.php?simple=1&api=2&output=json";
 
     public function __construct($name = "")
@@ -26,33 +22,36 @@ class AddressUkPafLookup extends CompositeControlPresenter
 
     protected function createView()
     {
-        $view = new AddressUkPafLookupView();
-        return $view;
+        return new AddressUkPafLookupView();
     }
 
     protected function configureView()
     {
         parent::configureView();
-        $this->view->defaultValues = $this->defaultValues;
 
-        $this->view->AttachEventHandler( "SearchPressed", function ( $houseNumber, $postCodeSearch ) {
-            if(!isset($postCodeSearch)) {
+        $this->view->AttachEventHandler("SearchPressed", function ($houseNumber, $postCodeSearch) {
+            if ( ! isset( $postCodeSearch )) {
                 return json_decode([]);
             }
-            $searchParams = [];
-            $searchParams[ 'postcode' ] = urlencode( $postCodeSearch );
+            $searchParams             = [];
+            $searchParams['postcode'] = urlencode($postCodeSearch);
 
-            $pafSettings = new PafSettings();
-            $searchParams[ 'apikey' ] = $pafSettings->ApiKey;
+            $pafSettings            = new PafSettings();
+            $searchParams['apikey'] = $pafSettings->ApiKey;
 
             if (isset( $houseNumber )) {
-                $searchParams[ 'num' ] = urlencode( $houseNumber );
+                $searchParams['num'] = urlencode($houseNumber);
             }
-            $requestUrl = implode( '&', [ self::pafServerUrl, http_build_query( $searchParams, '&' ) ] );
+            $requestUrl = self::pafServerUrl . '&' . http_build_query($searchParams, '&');
 
-            $response = file_get_contents($requestUrl);
-            return json_decode($response);
-        } );
+            try {
+                $response = file_get_contents($requestUrl);
+                return json_decode($response);
+
+            } catch (\Exception $e) {
+                return null;
+            }
+        });
     }
 
     protected function extractBoundData()
