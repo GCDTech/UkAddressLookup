@@ -1,0 +1,18 @@
+{
+  "name": "GcdTech/module-uk-address-lookup",
+  "description": "A module that shows a form with the common address fields with a tool to search address according to post code",
+  "keywords": [],
+  "homepage": "http://www.rhubarbphp.com/",
+  "license": "Apache-2.0",
+  "autoload": {
+    "psr-4": {
+      "Gcd\\UkAddressLookup\\": "src/"
+    }
+  },
+  "require": {
+    "rhubarbphp/rhubarb": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.*"
+  }
+}
