@@ -4,20 +4,32 @@ namespace Gcd\UkAddressLookup;
 
 use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
 
+/**
+ * @property AddressUkPafLookupView $view
+ * @property string $Country
+ * @property bool $IncludeCountry
+ * @property bool $UseDropDownForResults
+ * @property bool $ResultDropDownSize
+ * @property string ManualAddressEntryText
+ */
 class AddressUkPafLookup extends CompositeControlPresenter
 {
-    const pafServerUrl = "http://paf.gcdtech.com/paf-data.php?simple=1&api=2&output=json";
-
-    public function __construct($name = "")
-    {
-        parent::__construct($name);
-    }
-
     protected function initialiseModel()
     {
         parent::initialiseModel();
 
-        $this->model->Country = "GB";
+        $this->model->Country = 'GB';
+        $this->model->IncludeCountry = true;
+        $this->model->UseDropDownForResults = false;
+        $this->model->ManualAddressEntryText = 'Enter address manually';
+    }
+
+    protected function getPublicModelPropertyList()
+    {
+        $properties = parent::getPublicModelPropertyList();
+        $properties[] = 'IncludeCountry';
+        $properties[] = 'UseDropDownForResults';
+        return $properties;
     }
 
     protected function createView()
@@ -29,28 +41,37 @@ class AddressUkPafLookup extends CompositeControlPresenter
     {
         parent::configureView();
 
-        $this->view->AttachEventHandler("SearchPressed", function ($houseNumber, $postCodeSearch) {
-            if ( ! isset( $postCodeSearch )) {
-                return json_decode([]);
-            }
-            $searchParams             = [];
-            $searchParams['postcode'] = urlencode($postCodeSearch);
+        $this->view->AttachEventHandler('Search', function () {
+            $houseNumber = $this->model->HouseNumber;
+            $postcode = $this->model->PostcodeSearch;
 
-            $pafSettings            = new PafSettings();
+            if (trim($postcode) == '') {
+                throw new PafException('No postcode', 'Please enter a postcode');
+            }
+
+            $pafSettings = new PafSettings();
             $searchParams['apikey'] = $pafSettings->ApiKey;
+            $searchParams['postcode'] = $postcode;
 
-            if (isset( $houseNumber )) {
-                $searchParams['num'] = urlencode($houseNumber);
+            if (trim($houseNumber) != '') {
+                $searchParams['num'] = $houseNumber;
             }
-            $requestUrl = self::pafServerUrl . '&' . http_build_query($searchParams, '&');
 
-            try {
-                $response = file_get_contents($requestUrl);
-                return json_decode($response);
+            $requestUrl = $pafSettings->PafRequestUrl . '&' . http_build_query($searchParams, '&');
 
-            } catch (\Exception $e) {
-                return null;
+            $response = @file_get_contents($requestUrl);
+
+            if ($response === false) {
+                throw new PafException('Request failed');
             }
+
+            $response = json_decode($response, true);
+
+            if ($response === false && json_last_error()) {
+                throw new PafException('Invalid response: ' . json_last_error_msg());
+            }
+
+            return $response;
         });
     }
 
@@ -58,5 +79,4 @@ class AddressUkPafLookup extends CompositeControlPresenter
     {
         return $this->model;
     }
-
 }

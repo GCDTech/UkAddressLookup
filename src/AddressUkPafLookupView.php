@@ -2,87 +2,134 @@
 
 namespace Gcd\UkAddressLookup;
 
+use Rhubarb\Crown\Exceptions\RhubarbException;
 use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
+use Rhubarb\Leaf\Presenters\Controls\ControlPresenter;
 use Rhubarb\Leaf\Presenters\Controls\ControlView;
 use Rhubarb\Leaf\Presenters\Controls\Selection\DropDown\DropDown;
 use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;
+use Rhubarb\Leaf\Validation\HasValueClientSide;
+use Rhubarb\Leaf\Validation\ValidatorClientSide;
+use Rhubarb\Leaf\Views\Validation\Placeholder;
 
 class AddressUkPafLookupView extends ControlView
 {
-    protected $htmlType = "address";
-
-    public function __construct($htmlType = "address")
-    {
-        $this->htmlType = $htmlType;
-
-        $this->requiresContainer   = true;
-        $this->requiresStateInputs = true;
-    }
-
     public function getDeploymentPackage()
     {
-        $package                      = parent::getDeploymentPackage();
-        $package->resourcesToDeploy[] = __DIR__ . "/AddressUkPafLookupViewBridge.js";
+        $package = parent::getDeploymentPackage();
+        $package->resourcesToDeploy[] = __DIR__ . '/AddressUkPafLookupViewBridge.js';
 
         return $package;
     }
 
     protected function getClientSideViewBridgeName()
     {
-        return "AddressUkPafLookupViewBridge";
+        return 'AddressUkPafLookupViewBridge';
     }
 
     public function createPresenters()
     {
+        /** @var ControlPresenter[] $pafFields */
+        $pafFields = [];
+
         $this->AddPresenters(
-            $country = new DropDown("Country"),
-            $houseNumber = new TextBox("HouseNumber", 10),
-            $postCodeSearch = new TextBox("PostCodeSearch", 15),
-            $search = new Button("Search", "Search", function () {
-            }),
-            new TextBox("Line1", 50),
-            new TextBox("Line2", 30),
-            new TextBox("Town", 30),
-            new TextBox("County", 20),
-            new TextBox("PostCode", 10)
+            $resultsDropDown = new DropDown('Results'),
+            $country = new DropDown('Country'),
+            $houseNumber = new TextBox('HouseNumber', 10),
+            $postcodeSearch = new TextBox('PostcodeSearch', 15),
+            $search = new Button('Search', 'Search', function () use ($resultsDropDown) {
+                try {
+                    $results = $this->raiseEvent('Search');
+                } catch (RhubarbException $ex) {
+                    return $ex->getPublicMessage();
+                } catch (\Exception $ex) {
+                    return $ex->getMessage();
+                }
+
+                if (!count($results)) {
+                    return 'No addresses found for postcode';
+                }
+
+                array_walk($results, function (&$address) {
+                    $address = [1, implode(', ', $address), $address];
+                });
+
+                array_unshift($results, ['', 'Select address...']);
+
+                $resultsDropDown->setSelectionItems($results);
+                $resultsDropDown->rePresent();
+
+                return 'success';
+            }, true),
+            $pafFields[] = new TextBox('Organisation', 50),
+            $pafFields[] = new TextBox('AddressLine1', 50),
+            $pafFields[] = new TextBox('AddressLine2', 30),
+            $pafFields[] = new TextBox('AddressLine3', 30),
+            $pafFields[] = new TextBox('Town', 30),
+            $pafFields[] = new TextBox('County', 20),
+            $pafFields[] = new TextBox('Postcode', 10)
         );
+
+        foreach ($pafFields as $pafField) {
+            $pafField->addCssClassName('paf-address-field');
+        }
+
+        $resultsDropDown->addCssClassName('-hidden');
+
+        $validator = new ValidatorClientSide();
+        $validator->validations[] = $validation = new HasValueClientSide('PostcodeSearch');
+        $validation->failedMessageOverride = 'Please enter a postcode';
+        $search->setValidator($validator);
 
         $countriesList = [];
         foreach (Country::getCountriesList() as $key => $value) {
             $countriesList[] = [$key, $value];
         }
-        $country->SetSelectionItems([["", "Please select..."], $countriesList]);
-        $postCodeSearch->setPlaceholderText("Postcode");
-        $houseNumber->setPlaceholderText("No.");
+        $country->setSelectionItems([['', 'Please select...'], $countriesList]);
+        $postcodeSearch->setPlaceholderText('Postcode');
+        $houseNumber->setPlaceholderText('No.');
     }
 
     public function printViewContent()
     {
-        $this->printFieldset("", ["Country"]);
+        if ($this->getData('IncludeCountry')) {
+            $this->printFieldset("", ["Country"]);
+        }
         ?>
-        <div id="search-fields">
-            <div id="search-results">
-                <span id="search-results-msg"></span>
-                <ul id="search-results-items" class="search-results-items"></ul>
-            </div>
+        <div id="paf-search-fields">
             <?php
-            $this->printFieldset("", [
-                "Find Address" => "{HouseNumber}{PostCodeSearch}{Search}<span id='spinner' class='spinner'></span>"
+
+            print $this->presenters['Results'];
+
+            $this->printFieldset('', [
+                'Find Address' => ($this->getData('IncludeHouseNumberSearch') ? $this->presenters['HouseNumber'] : '').
+                    $this->presenters['PostcodeSearch'].(new Placeholder('PostcodeSearch', $this)).
+                    $this->presenters['Search']
             ]);
             ?>
-            <span id="search-error"></span>
+            <span id="paf-search-error" class="-hidden"></span>
         </div>
 
-        <p id="manual-address-par" class="_help">Don't know the postcode? <a id="manual-address-link" href='#'>enter their address manually</a>.</p>
-        <p id="search-address-par" class="_help"><b><a id="search-address-link" href='#'>Search again</a></b></p>
-        <div id="manual-fields">
+        <?php
+        $manualAddressEntryText = $this->getData('ManualAddressEntryText');
+        if ($manualAddressEntryText) {
+            ?>
+            <p id="paf-manual-address-action"><a id="paf-manual-address-link"><?= $manualAddressEntryText ?></a></p>
             <?php
-            $this->printFieldset("", [
-                "Address Line 1" => "Line1",
-                "Address Line 2" => "Line2",
-                "Town",
-                "County",
-                "PostCode"
+        }
+        ?>
+
+        <div id="paf-address-fields" class="-hidden">
+            <p id="paf-search-again-action"><b><a id="paf-search-again-link">Search again</a></b></p>
+            <?php
+            $this->printFieldset('', [
+                'Organisation',
+                'AddressLine1',
+                'AddressLine2',
+                'AddressLine3',
+                'Town',
+                'County',
+                'Postcode'
             ]);
             ?>
         </div>
