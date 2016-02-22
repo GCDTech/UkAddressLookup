@@ -92,20 +92,21 @@ class AddressUkPafLookupView extends ControlView
 
     public function printViewContent()
     {
+        $addressShown = $this->getData('AddressPopulated');
+
         if ($this->getData('IncludeCountry')) {
             $this->printFieldset("", ["Country"]);
         }
         ?>
-        <div id="paf-search-fields">
+        <div id="paf-search-fields"<?= $addressShown ? ' class="-hidden"' : '' ?>>
             <?php
-
-            print $this->presenters['Results'];
-
             $this->printFieldset('', [
                 'Find Address' => ($this->getData('IncludeHouseNumberSearch') ? $this->presenters['HouseNumber'] : '').
                     $this->presenters['PostcodeSearch'].(new Placeholder('PostcodeSearch', $this)).
                     $this->presenters['Search']
             ]);
+
+            print $this->presenters['Results'];
             ?>
             <span id="paf-search-error" class="-hidden"></span>
         </div>
@@ -114,25 +115,33 @@ class AddressUkPafLookupView extends ControlView
         $manualAddressEntryText = $this->getData('ManualAddressEntryText');
         if ($manualAddressEntryText) {
             ?>
-            <p id="paf-manual-address-action"><a id="paf-manual-address-link"><?= $manualAddressEntryText ?></a></p>
+            <p id="paf-manual-address-action"<?= $addressShown ? ' class="-hidden"' : '' ?>><a id="paf-manual-address-link"><?= $manualAddressEntryText ?></a></p>
             <?php
         }
         ?>
 
-        <div id="paf-address-fields" class="-hidden">
-            <p id="paf-search-again-action"><b><a id="paf-search-again-link">Search again</a></b></p>
-            <?php
-            $this->printFieldset('', [
-                'Organisation',
-                'AddressLine1',
-                'AddressLine2',
-                'AddressLine3',
-                'Town',
-                'County',
-                'Postcode'
-            ]);
-            ?>
+        <div id="paf-address"<?= $addressShown ? '' : ' class="-hidden"' ?>>
+            <p id="paf-search-again-action"><b><a id="paf-search-again-link">Search for address</a></b></p>
+
+            <div id="paf-address-summary">
+                <?php
+                $this->printAddressSummary();
+                ?>
+            </div>
+            <div id="paf-address-fields" class="-hidden">
+                <?php
+                $this->printFieldset('', AddressUkPafLookup::$addressFields);
+                ?>
+            </div>
         </div>
         <?php
+    }
+
+    protected function printAddressSummary()
+    {
+        print '<a id="paf-change-address-button">Change</a>';
+        foreach (AddressUkPafLookup::$addressFields as $field) {
+            print '<span class="paf-address-part" data-paf-field="'.$field.'">'.$this->getData($field).'</span>';
+        }
     }
 }

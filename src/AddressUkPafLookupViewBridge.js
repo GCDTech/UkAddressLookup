@@ -13,7 +13,7 @@ pafBridge.prototype.attachEvents = function () {
 
     var errorElement = document.getElementById('paf-search-error');
 
-    self.findChildViewBridge('Search').attachClientEventHandler('ButtonPressCompleted', function(response) {
+    self.findChildViewBridge('Search').attachClientEventHandler('ButtonPressCompleted', function (response) {
         if (response == 'success') {
             errorElement.classList.add('-hidden');
             self.resultsDropDown.viewNode.classList.remove('-hidden');
@@ -25,9 +25,19 @@ pafBridge.prototype.attachEvents = function () {
         }
     });
 
+    var addressSummary = document.getElementById('paf-address-summary');
+    addressSummary = addressSummary.getElementsByClassName('paf-address-part');
+    this.addressSummaryFields = {};
+    for (var i = 0; i < addressSummary.length; i++) {
+        var fieldName = addressSummary[i].getAttribute('data-paf-field');
+        if (fieldName) {
+            this.addressSummaryFields[fieldName] = addressSummary[i];
+        }
+    }
+
     this.addressFields = {};
     var subPresenters = self.getSubPresenters();
-    for (var i = 0; i < subPresenters.length; i++) {
+    for (i = 0; i < subPresenters.length; i++) {
         var subPresenter = subPresenters[i];
         if (subPresenter.viewNode.classList.contains('paf-address-field')) {
             this.addressFields[subPresenter.presenterName] = subPresenter;
@@ -44,13 +54,12 @@ pafBridge.prototype.attachEvents = function () {
     var manualAddressLink = document.getElementById('paf-manual-address-link');
     if (manualAddressLink) {
         this.manualAddressAction = document.getElementById('paf-manual-address-action');
-        manualAddressLink.onclick = function() {
-            self.showAddress();
+        manualAddressLink.onclick = function () {
+            self.showAddress(true);
         };
     }
 
-    this.resultsDropDown.attachClientEventHandler('ValueChanged', function(dropDown, newValue)
-    {
+    this.resultsDropDown.attachClientEventHandler('ValueChanged', function (dropDown, newValue) {
         if (!newValue) {
             return;
         }
@@ -65,6 +74,18 @@ pafBridge.prototype.attachEvents = function () {
             if (fieldName in self.addressFields) {
                 self.addressFields[fieldName].setValue(address.data[fieldName]);
             }
+
+            if (fieldName in self.addressSummaryFields) {
+                self.addressSummaryFields[fieldName].innerHTML = address.data[fieldName];
+            }
+        }
+
+        // Empty any fields that didn't have values in the selected address
+        for (fieldName in self.addressFields) {
+            if (self.addressFields.hasOwnProperty(fieldName) && !address.data.hasOwnProperty(fieldName)) {
+                self.addressFields[fieldName].setValue('');
+                self.addressSummaryFields[fieldName].innerHTML = '';
+            }
         }
 
         self.hideEmptyAddressFields();
@@ -72,10 +93,13 @@ pafBridge.prototype.attachEvents = function () {
 
         dropDown.setValue('');
     });
+
+    document.getElementById('paf-change-address-button').onclick = function () {
+        self.showAddress(true);
+    };
 };
 
-pafBridge.prototype.hideEmptyAddressFields = function()
-{
+pafBridge.prototype.hideEmptyAddressFields = function () {
     for (var addressPart in this.addressFields) {
         if (!this.addressFields.hasOwnProperty(addressPart)) {
             continue;
@@ -90,18 +114,24 @@ pafBridge.prototype.hideEmptyAddressFields = function()
     }
 };
 
-pafBridge.prototype.showAddress = function()
-{
-    this.showElements('paf-address-fields');
+pafBridge.prototype.showAddress = function (showFields) {
+    this.showElements('paf-address');
     this.hideElements('paf-search-fields');
     if (this.manualAddressAction) {
         this.manualAddressAction.classList.add('-hidden');
     }
+
+    if (showFields) {
+        this.hideElements('paf-address-summary');
+        this.showElements('paf-address-fields');
+    } else {
+        this.showElements('paf-address-summary');
+        this.hideElements('paf-address-fields');
+    }
 };
 
-pafBridge.prototype.showSearchFields = function()
-{
-    this.hideElements('paf-address-fields', 'paf-search-error');
+pafBridge.prototype.showSearchFields = function () {
+    this.hideElements('paf-address', 'paf-search-error');
     this.showElements('paf-search-fields');
     this.resultsDropDown.viewNode.classList.add('-hidden');
     if (this.manualAddressAction) {
@@ -109,13 +139,13 @@ pafBridge.prototype.showSearchFields = function()
     }
 };
 
-pafBridge.prototype.hideElements = function(elementId) {
+pafBridge.prototype.hideElements = function (elementId) {
     for (var i = 0; i < arguments.length; i++) {
         document.getElementById(arguments[i]).classList.add('-hidden');
     }
 };
 
-pafBridge.prototype.showElements = function(elementId) {
+pafBridge.prototype.showElements = function (elementId) {
     for (var i = 0; i < arguments.length; i++) {
         document.getElementById(arguments[i]).classList.remove('-hidden');
     }

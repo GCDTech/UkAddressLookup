@@ -14,6 +14,8 @@ use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
  */
 class AddressUkPafLookup extends CompositeControlPresenter
 {
+    public static $addressFields = ['Organisation', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'Town', 'County', 'Postcode'];
+
     protected function initialiseModel()
     {
         parent::initialiseModel();
@@ -35,6 +37,28 @@ class AddressUkPafLookup extends CompositeControlPresenter
     protected function createView()
     {
         return new AddressUkPafLookupView();
+    }
+
+    protected function getData($dataKey, $viewIndex = false)
+    {
+        if ($dataKey == 'AddressPopulated') {
+            return $this->isAddressPopulated();
+        }
+
+        return parent::getData($dataKey, $viewIndex);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAddressPopulated()
+    {
+        foreach (self::$addressFields as $field) {
+            if ($this->getData($field) != "") {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected function configureView()
