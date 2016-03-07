@@ -13,7 +13,9 @@ pafBridge.prototype.attachEvents = function () {
 
     var errorElement = document.getElementById('paf-search-error');
 
-    self.findChildViewBridge('Search').attachClientEventHandler('ButtonPressCompleted', function (response) {
+    this.searchButton = self.findChildViewBridge('Search');
+
+    this.searchButton.attachClientEventHandler('ButtonPressCompleted', function (response) {
         if (response == 'success') {
             errorElement.classList.add('-hidden');
             self.resultsDropDown.viewNode.classList.remove('-hidden');
@@ -24,6 +26,13 @@ pafBridge.prototype.attachEvents = function () {
             self.resultsDropDown.viewNode.classList.add('-hidden');
         }
     });
+
+    self.findChildViewBridge('PostcodeSearch').viewNode.onkeypress = function (event) {
+        if (event.keyCode == 13) {
+            self.searchButton.viewNode.click();
+            event.preventDefault();
+        }
+    };
 
     var addressSummary = document.getElementById('paf-address-summary');
     addressSummary = addressSummary.getElementsByClassName('paf-address-part');
