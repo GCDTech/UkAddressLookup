@@ -3,6 +3,7 @@
 namespace Gcd\UkAddressLookup;
 
 use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
+use Rhubarb\Stem\Models\Model;
 
 /**
  * @property AddressUkPafLookupView $view
@@ -37,6 +38,13 @@ class AddressUkPafLookup extends CompositeControlPresenter
     protected function createView()
     {
         return new AddressUkPafLookupView();
+    }
+
+    public function applyToModel(Model $model)
+    {
+        foreach (self::$addressFields as $field) {
+            $model->$field = $this->model->$field;
+        }
     }
 
     protected function getData($dataKey, $viewIndex = false)
