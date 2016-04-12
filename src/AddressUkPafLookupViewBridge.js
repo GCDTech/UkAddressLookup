@@ -11,7 +11,7 @@ pafBridge.prototype.attachEvents = function () {
 
     this.resultsDropDown = self.findChildViewBridge('Results');
 
-    var errorElement = document.getElementById('paf-search-error');
+    var errorElement = self.viewNode.getElementsByClassName('paf-search-error')[0];
 
     this.searchButton = self.findChildViewBridge('Search');
 
@@ -34,7 +34,7 @@ pafBridge.prototype.attachEvents = function () {
         }
     };
 
-    var addressSummary = document.getElementById('paf-address-summary');
+    var addressSummary = self.viewNode.getElementsByClassName('paf-address-summary')[0];
     addressSummary = addressSummary.getElementsByClassName('paf-address-part');
     this.addressSummaryFields = {};
     for (var i = 0; i < addressSummary.length; i++) {
@@ -53,16 +53,16 @@ pafBridge.prototype.attachEvents = function () {
         }
     }
 
-    var searchAgainLink = document.getElementById('paf-search-again-link');
+    var searchAgainLink = self.viewNode.getElementsByClassName('paf-search-again-link')[0];
     if (searchAgainLink) {
         searchAgainLink.onclick = function () {
             self.showSearchFields();
         };
     }
 
-    var manualAddressLink = document.getElementById('paf-manual-address-link');
+    var manualAddressLink = self.viewNode.getElementsByClassName('paf-manual-address-link')[0];
     if (manualAddressLink) {
-        this.manualAddressAction = document.getElementById('paf-manual-address-action');
+        this.manualAddressAction = self.viewNode.getElementsByClassName('paf-manual-address-action')[0];
         manualAddressLink.onclick = function () {
             self.showAddress(true);
         };
@@ -103,7 +103,7 @@ pafBridge.prototype.attachEvents = function () {
         dropDown.setValue('');
     });
 
-    document.getElementById('paf-change-address-button').onclick = function () {
+    self.viewNode.getElementsByClassName('paf-change-address-button')[0].onclick = function () {
         self.showAddress(true);
     };
 };
@@ -150,13 +150,13 @@ pafBridge.prototype.showSearchFields = function () {
 
 pafBridge.prototype.hideElements = function (elementId) {
     for (var i = 0; i < arguments.length; i++) {
-        document.getElementById(arguments[i]).classList.add('-hidden');
+        this.viewNode.getElementsByClassName(arguments[i])[0].classList.add('-hidden');
     }
 };
 
 pafBridge.prototype.showElements = function (elementId) {
     for (var i = 0; i < arguments.length; i++) {
-        document.getElementById(arguments[i]).classList.remove('-hidden');
+        this.viewNode.getElementsByClassName(arguments[i])[0].classList.remove('-hidden');
     }
 };
 

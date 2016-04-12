@@ -98,7 +98,7 @@ class AddressUkPafLookupView extends ControlView
             $this->printFieldset("", ["Country"]);
         }
         ?>
-        <div id="paf-search-fields"<?= $addressShown ? ' class="-hidden"' : '' ?>>
+        <div class="paf-search-fields<?= $addressShown ? ' -hidden' : '' ?>">
             <?php
             $this->printFieldset('', [
                 'Find Address' => ($this->getData('IncludeHouseNumberSearch') ? $this->presenters['HouseNumber'] : '').
@@ -108,27 +108,27 @@ class AddressUkPafLookupView extends ControlView
 
             print $this->presenters['Results'];
             ?>
-            <span id="paf-search-error" class="-hidden"></span>
+            <span class="paf-search-error -hidden"></span>
         </div>
 
         <?php
         $manualAddressEntryText = $this->getData('ManualAddressEntryText');
         if ($manualAddressEntryText) {
             ?>
-            <p id="paf-manual-address-action"<?= $addressShown ? ' class="-hidden"' : '' ?>><a id="paf-manual-address-link"><?= $manualAddressEntryText ?></a></p>
+            <p class="paf-manual-address-action<?= $addressShown ? ' -hidden' : '' ?>"><a class="paf-manual-address-link"><?= $manualAddressEntryText ?></a></p>
             <?php
         }
         ?>
 
-        <div id="paf-address"<?= $addressShown ? '' : ' class="-hidden"' ?>>
-            <p id="paf-search-again-action"><b><a id="paf-search-again-link">Search for address</a></b></p>
+        <div class="paf-address<?= $addressShown ? '' : ' -hidden' ?>">
+            <p class="paf-search-again-action"><b><a class="paf-search-again-link">Search for address</a></b></p>
 
-            <div id="paf-address-summary">
+            <div class="paf-address-summary">
                 <?php
                 $this->printAddressSummary();
                 ?>
             </div>
-            <div id="paf-address-fields" class="-hidden">
+            <div class="paf-address-fields" class="-hidden">
                 <?php
                 $this->printFieldset('', AddressUkPafLookup::$addressFields);
                 ?>
@@ -139,7 +139,7 @@ class AddressUkPafLookupView extends ControlView
 
     protected function printAddressSummary()
     {
-        print '<a id="paf-change-address-button">Change</a>';
+        print '<a class="paf-change-address-button">Change</a>';
         foreach (AddressUkPafLookup::$addressFields as $field) {
             print '<span class="paf-address-part" data-paf-field="'.$field.'">'.$this->getData($field).'</span>';
         }
