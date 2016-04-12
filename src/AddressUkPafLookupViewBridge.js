@@ -160,4 +160,24 @@ pafBridge.prototype.showElements = function (elementId) {
     }
 };
 
+pafBridge.prototype.getValue = function(){
+    var fields = [
+        'Organisation',
+        'AddressLine1',
+        'AddressLine2',
+        'AddressLine3',
+        'Town',
+        'County',
+        'Postcode'
+    ];
+
+    var address = [];
+
+    for(var i=0; i<fields.length; i++){
+        address[fields[i]] = this.findViewBridge(fields[i]).getValue();
+    }
+
+    return address;
+};
+
 window.rhubarb.viewBridgeClasses.AddressUkPafLookupViewBridge = pafBridge;
