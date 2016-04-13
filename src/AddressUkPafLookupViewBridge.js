@@ -123,6 +123,28 @@ pafBridge.prototype.hideEmptyAddressFields = function () {
     }
 };
 
+pafBridge.prototype.setAddressField = function (fieldName, value) {
+    if (fieldName in this.addressFields) {
+        this.addressFields[fieldName].setValue(value);
+    }
+
+    if (fieldName in this.addressSummaryFields) {
+        this.addressSummaryFields[fieldName].innerHTML = value;
+    }
+};
+
+pafBridge.prototype.isAddressPopulated = function () {
+    for (var fieldName in this.addressFields) {
+        if (this.addressFields.hasOwnProperty(fieldName)) {
+            if (this.addressFields[fieldName].getValue() != '') {
+                return true;
+            }
+        }
+    }
+
+    return false;
+};
+
 pafBridge.prototype.showAddress = function (showFields) {
     this.showElements('paf-address');
     this.hideElements('paf-search-fields');
@@ -137,6 +159,10 @@ pafBridge.prototype.showAddress = function (showFields) {
         this.showElements('paf-address-summary');
         this.hideElements('paf-address-fields');
     }
+};
+
+pafBridge.prototype.showFieldsOrSummary = function () {
+    this.showAddress(!this.isAddressPopulated());
 };
 
 pafBridge.prototype.showSearchFields = function () {
