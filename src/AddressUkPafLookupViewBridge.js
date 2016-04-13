@@ -161,16 +161,20 @@ pafBridge.prototype.showAddress = function (showFields) {
     }
 };
 
-pafBridge.prototype.showFieldsOrSummary = function () {
-    this.showAddress(!this.isAddressPopulated());
-};
-
 pafBridge.prototype.showSearchFields = function () {
     this.hideElements('paf-address', 'paf-search-error');
     this.showElements('paf-search-fields');
     this.resultsDropDown.viewNode.classList.add('-hidden');
     if (this.manualAddressAction) {
         this.manualAddressAction.classList.remove('-hidden');
+    }
+};
+
+pafBridge.prototype.showSearchOrSummary = function () {
+    if (this.isAddressPopulated()) {
+        this.showAddress(false);
+    } else {
+        this.showSearchFields();
     }
 };
 
