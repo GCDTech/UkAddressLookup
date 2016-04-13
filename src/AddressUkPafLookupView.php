@@ -128,7 +128,7 @@ class AddressUkPafLookupView extends ControlView
                 $this->printAddressSummary();
                 ?>
             </div>
-            <div class="paf-address-fields" class="-hidden">
+            <div class="paf-address-fields -hidden">
                 <?php
                 $this->printFieldset('', AddressUkPafLookup::$addressFields);
                 ?>
