@@ -32,9 +32,9 @@ class AddressUkPafLookupView extends ControlView
         return "AddressUkPafLookupViewBridge";
     }
 
-    public function createPresenters()
+    protected function createSubLeaves()
     {
-        $this->AddPresenters(
+        $this->registerSubLeaf(
             $country = new DropDown("Country"),
             $houseNumber = new TextBox("HouseNumber", 10),
             $postCodeSearch = new TextBox("PostCodeSearch", 15),
@@ -58,7 +58,7 @@ class AddressUkPafLookupView extends ControlView
 
     public function printViewContent()
     {
-        $this->printFieldset("", ["Country"]);
+        $this->layoutItemsWithContainer("", ["Country"]);
         ?>
         <div class="search-fields">
             <div class="search-results">
@@ -66,7 +66,7 @@ class AddressUkPafLookupView extends ControlView
                 <ul class="search-results-items"></ul>
             </div>
             <?php
-            $this->printFieldset("", [
+            $this->layoutItemsWithContainer("", [
                 "Find Address" => "{HouseNumber}{PostCodeSearch}{Search}<span class='spinner'></span>"
             ]);
             ?>
@@ -78,7 +78,7 @@ class AddressUkPafLookupView extends ControlView
         <p class="search-address-link _help"><b><a href='#'>Search again</a></b></p>
         <div class="manual-fields">
             <?php
-            $this->printFieldset("", [
+            $this->layoutItemsWithContainer("", [
                 "Address Line 1" => "Line1",
                 "Address Line 2" => "Line2",
                 "Town",
