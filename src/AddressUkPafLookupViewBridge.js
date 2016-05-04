@@ -1,9 +1,9 @@
 var bridge = function(presenterPath)
 {
-    window.rhubarb.viewBridgeClasses.HtmlViewBridge.apply(this, arguments);
+    window.rhubarb.viewBridgeClasses.ViewBridge.apply(this, arguments);
 };
 
-bridge.prototype = new window.rhubarb.viewBridgeClasses.HtmlViewBridge();
+bridge.prototype = new window.rhubarb.viewBridgeClasses.ViewBridge();
 bridge.prototype.constructor = bridge;
 
 bridge.prototype.attachEvents = function()
