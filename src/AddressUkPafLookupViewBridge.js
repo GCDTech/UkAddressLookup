@@ -1,4 +1,4 @@
-var bridge = function(presenterPath)
+var bridge = function(leafPath)
 {
     window.rhubarb.viewBridgeClasses.ViewBridge.apply(this, arguments);
 };
