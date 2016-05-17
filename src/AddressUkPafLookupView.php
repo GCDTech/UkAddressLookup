@@ -32,7 +32,7 @@ class AddressUkPafLookupView extends ControlView
         /** @var ControlPresenter[] $pafFields */
         $pafFields = [];
 
-        $this->AddPresenters(
+        $this->addPresenters(
             $resultsDropDown = new DropDown('Results'),
             $country = new DropDown('Country'),
             $houseNumber = new TextBox('HouseNumber', 10),
@@ -48,6 +48,10 @@ class AddressUkPafLookupView extends ControlView
 
                 if (!count($results)) {
                     return 'No addresses found for postcode';
+                }
+
+                if (isset($results['Type']) && $results['Type'] == 'NotAllowed') {
+                    return 'Address lookup service unavailable';
                 }
 
                 array_walk($results, function (&$address) {
