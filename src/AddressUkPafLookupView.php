@@ -2,32 +2,24 @@
 
 namespace Gcd\UkAddressLookup;
 
-use Rhubarb\Leaf\Presenters\Controls\Buttons\Button;
-use Rhubarb\Leaf\Presenters\Controls\ControlView;
-use Rhubarb\Leaf\Presenters\Controls\Selection\DropDown\DropDown;
-use Rhubarb\Leaf\Presenters\Controls\Text\TextBox\TextBox;
+use Rhubarb\Leaf\Controls\Common\Buttons\Button;
+use Rhubarb\Leaf\Controls\Common\SelectionControls\DropDown\DropDown;
+use Rhubarb\Leaf\Controls\Common\Text\TextBox;
+use Rhubarb\Leaf\Leaves\Controls\ControlView;
+use Rhubarb\Leaf\Leaves\LeafDeploymentPackage;
 
 class AddressUkPafLookupView extends ControlView
 {
-    protected $htmlType = "address";
-
-    public function __construct($htmlType = "address")
-    {
-        $this->htmlType = $htmlType;
-
-        $this->requiresContainer   = true;
-        $this->requiresStateInputs = true;
-    }
+    public $htmlType = "address";
+    protected $requiresContainerDiv = true;
+    protected $requiresStateInput = true;
 
     public function getDeploymentPackage()
     {
-        $package                      = parent::getDeploymentPackage();
-        $package->resourcesToDeploy[] = __DIR__ . "/AddressUkPafLookupViewBridge.js";
-
-        return $package;
+        return new LeafDeploymentPackage(__DIR__ . "/AddressUkPafLookupViewBridge.js");
     }
 
-    protected function getClientSideViewBridgeName()
+    protected function getViewBridgeName()
     {
         return "AddressUkPafLookupViewBridge";
     }
@@ -51,7 +43,7 @@ class AddressUkPafLookupView extends ControlView
         foreach (Country::getCountriesList() as $key => $value) {
             $countriesList[] = [$key, $value];
         }
-        $country->SetSelectionItems([["", "Please select..."], $countriesList]);
+        $country->setSelectionItems([["", "Please select..."], $countriesList]);
         $postCodeSearch->setPlaceholderText("Postcode");
         $houseNumber->setPlaceholderText("No.");
     }

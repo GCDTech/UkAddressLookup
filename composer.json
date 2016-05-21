@@ -12,8 +12,5 @@
   "require": {
     "rhubarbphp/rhubarb": "*",
     "rhubarbphp/module-leaf": "*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "3.*"
   }
 }

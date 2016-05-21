@@ -2,16 +2,9 @@
 
 namespace Gcd\UkAddressLookup;
 
-use Rhubarb\Leaf\Presenters\Controls\CompositeControlPresenter;
-
-class AddressUkPafLookup extends CompositeControlPresenter
+class AddressUkPafLookup extends CompositeControl
 {
     const pafServerUrl = "http://paf.gcdtech.com/paf-data.php?simple=1&api=2&output=json";
-
-    public function __construct($name = "")
-    {
-        parent::__construct($name);
-    }
 
     protected function initialiseModel()
     {
@@ -20,9 +13,9 @@ class AddressUkPafLookup extends CompositeControlPresenter
         $this->model->Country = "GB";
     }
 
-    protected function createView()
+    protected function getViewClass()
     {
-        return new AddressUkPafLookupView();
+        return AddressUkPafLookupView::class;
     }
 
     protected function configureView()
@@ -36,8 +29,8 @@ class AddressUkPafLookup extends CompositeControlPresenter
             $searchParams             = [];
             $searchParams['postcode'] = urlencode($postCodeSearch);
 
-            $pafSettings            = new PafSettings();
-            $searchParams['apikey'] = $pafSettings->ApiKey;
+            $pafSettings            = PafSettings::singleton();
+            $searchParams['apikey'] = $pafSettings->apiKey;
 
             if (isset( $houseNumber )) {
                 $searchParams['num'] = urlencode($houseNumber);
