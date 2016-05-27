@@ -58,7 +58,8 @@ class AddressUkPafLookup extends CompositeControl
             "Line2" => $this->model->Line2,
             "Town" => $this->model->Town,
             "County" => $this->model->County,
-            "Postcode" => $this->model->Postcode
+            "Postcode" => $this->model->Postcode,
+            "Country" => $this->model->Country
         ];
     }
 
@@ -69,7 +70,7 @@ class AddressUkPafLookup extends CompositeControl
      */
     protected function parseCompositeValue($compositeValue)
     {
-        $props = ["Line1", "Line2", "Town", "County", "Postcode" ];
+        $props = ["Line1", "Line2", "Town", "County", "Postcode", "Country" ];
 
         foreach($props as $prop){
             if (isset($compositeValue[$prop])){
