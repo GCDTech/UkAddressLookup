@@ -16,7 +16,11 @@ class AddressUkPafLookupView extends ControlView
 
     public function getDeploymentPackage()
     {
-        return new LeafDeploymentPackage(__DIR__ . "/AddressUkPafLookupViewBridge.js");
+        return new LeafDeploymentPackage(
+            __DIR__ . "/AddressUkPafLookupViewBridge.js",
+            VENDOR_DIR."/components/jquery/jquery.min.js",
+            VENDOR_DIR."/components/jqueryui/jquery-ui.min.js"
+            );
     }
 
     protected function getViewBridgeName()

@@ -94,7 +94,7 @@ bridge.prototype.attachEvents = function()
             return false;
         }
 
-        self.raiseServerEvent("SearchPressed", houseNumber.viewNode.value, postCodeSearch.viewNode.value,
+        self.raiseServerEvent("searchPressed", houseNumber.viewNode.value, postCodeSearch.viewNode.value,
             function(response)
             {
                 spinnerGif.hide();

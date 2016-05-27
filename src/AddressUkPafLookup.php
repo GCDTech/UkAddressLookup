@@ -2,30 +2,32 @@
 
 namespace Gcd\UkAddressLookup;
 
+use Rhubarb\Leaf\Leaves\Controls\CompositeControl;
+
 class AddressUkPafLookup extends CompositeControl
 {
     const pafServerUrl = "http://paf.gcdtech.com/paf-data.php?simple=1&api=2&output=json";
-
-    protected function initialiseModel()
-    {
-        parent::initialiseModel();
-
-        $this->model->Country = "GB";
-    }
 
     protected function getViewClass()
     {
         return AddressUkPafLookupView::class;
     }
 
-    protected function configureView()
+    protected function createModel()
     {
-        parent::configureView();
+        return new AddressUkPafLookupModel();
+    }
 
-        $this->view->AttachEventHandler("SearchPressed", function ($houseNumber, $postCodeSearch) {
+    protected function onModelCreated()
+    {
+        parent::onModelCreated();
+
+        $this->model->searchPressedEvent->attachHandler(function($houseNumber, $postCodeSearch){
+
             if ( ! isset( $postCodeSearch )) {
                 return json_decode([]);
             }
+
             $searchParams             = [];
             $searchParams['postcode'] = urlencode($postCodeSearch);
 
@@ -47,9 +49,32 @@ class AddressUkPafLookup extends CompositeControl
         });
     }
 
-    protected function extractBoundData()
+
+
+    protected function createCompositeValue()
     {
-        return $this->model;
+        return [
+            "Line1" => $this->model->Line1,
+            "Line2" => $this->model->Line2,
+            "Town" => $this->model->Town,
+            "County" => $this->model->County,
+            "Postcode" => $this->model->Postcode
+        ];
     }
 
+    /**
+     * The place to parse the value property and break into the sub values for sub controls to bind to
+     *
+     * @param $compositeValue
+     */
+    protected function parseCompositeValue($compositeValue)
+    {
+        $props = ["Line1", "Line2", "Town", "County", "Postcode" ];
+
+        foreach($props as $prop){
+            if (isset($compositeValue[$prop])){
+                $this->$prop = $compositeValue[$prop];
+            }
+        }
+    }
 }

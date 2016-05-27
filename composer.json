@@ -11,6 +11,8 @@
   },
   "require": {
     "rhubarbphp/rhubarb": "*",
-    "rhubarbphp/module-leaf": "*"
+    "rhubarbphp/module-leaf": "*",
+    "components/jquery": "*",
+    "components/jqueryui": "*"
   }
 }
