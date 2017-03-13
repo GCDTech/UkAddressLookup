@@ -32,15 +32,15 @@ class AddressUkPafLookupView extends ControlView
     {
         $this->registerSubLeaf(
             $country = new DropDown("Country"),
-            $houseNumber = new TextBox("HouseNumber", 10),
-            $postCodeSearch = new TextBox("PostCodeSearch", 15),
+            $houseNumber = new TextBox("HouseNumber"),
+            $postCodeSearch = new TextBox("PostCodeSearch"),
             $search = new Button("Search", "Search", function () {
             }),
-            new TextBox("Line1", 50),
-            new TextBox("Line2", 30),
-            new TextBox("Town", 30),
-            new TextBox("County", 20),
-            new TextBox("PostCode", 10)
+            new TextBox("Line1"),
+            new TextBox("Line2"),
+            new TextBox("Town"),
+            new TextBox("County"),
+            new TextBox("PostCode")
         );
 
         $countriesList = [];
