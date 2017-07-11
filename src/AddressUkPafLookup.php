@@ -103,6 +103,10 @@ class AddressUkPafLookup extends CompositeControlPresenter
                 throw new PafException('Invalid response: ' . json_last_error_msg());
             }
 
+            usort($response, function ($a, $b) {
+                return strnatcmp($a['AddressLine1'], $b['AddressLine1']);
+            });
+
             return $response;
         });
     }
