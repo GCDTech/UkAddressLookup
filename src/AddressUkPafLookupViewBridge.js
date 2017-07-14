@@ -91,7 +91,7 @@ pafBridge.prototype.attachEvents = function () {
 
         // Empty any fields that didn't have values in the selected address
         for (fieldName in self.addressFields) {
-            if (self.addressFields.hasOwnProperty(fieldName) && !address.data.hasOwnProperty(fieldName)) {
+            if (self.addressFields.hasOwnProperty(fieldName) && !address.data.hasOwnProperty(fieldName) && self.addressFields[fieldName] && self.addressSummaryFields[fieldName]) {
                 self.addressFields[fieldName].setValue('');
                 self.addressSummaryFields[fieldName].innerHTML = '';
             }
@@ -204,7 +204,10 @@ pafBridge.prototype.getValue = function(){
     var address = [];
 
     for(var i=0; i<fields.length; i++){
-        address[fields[i]] = this.findViewBridge(fields[i]).getValue();
+        var field = this.findViewBridge(fields[i]);
+        if (field) {
+            address[fields[i]] = field.getValue();
+        }
     }
 
     return address;
