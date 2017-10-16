@@ -18,7 +18,7 @@ class AddressUkPafLookupModel extends CompositeControlModel
     public $Line1 = "";
     public $Line2 = "";
     public $Town = "";
-    public $County = "";
+    public $CountyCode = "";
 
 
     public function __construct()

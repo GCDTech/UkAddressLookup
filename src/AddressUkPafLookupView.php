@@ -31,7 +31,7 @@ class AddressUkPafLookupView extends ControlView
     protected function createSubLeaves()
     {
         $this->registerSubLeaf(
-            $country = new DropDown("Country"),
+            $country = new DropDown("CountryCode"),
             $houseNumber = new TextBox("HouseNumber"),
             $postCodeSearch = new TextBox("PostCodeSearch"),
             $search = new Button("Search", "Search", function () {
@@ -40,7 +40,7 @@ class AddressUkPafLookupView extends ControlView
             new TextBox("Line2"),
             new TextBox("Town"),
             new TextBox("County"),
-            new TextBox("PostCode")
+            new TextBox("Postcode")
         );
 
         $countriesList = [];
@@ -54,7 +54,7 @@ class AddressUkPafLookupView extends ControlView
 
     public function printViewContent()
     {
-        $this->layoutItemsWithContainer("", ["Country"]);
+        $this->layoutItemsWithContainer("", ["CountryCode"]);
         ?>
         <div class="search-fields">
             <div class="search-results">
@@ -79,7 +79,7 @@ class AddressUkPafLookupView extends ControlView
                 "Address Line 2" => "Line2",
                 "Town",
                 "County",
-                "PostCode"
+                "Postcode"
             ]);
             ?>
         </div>
