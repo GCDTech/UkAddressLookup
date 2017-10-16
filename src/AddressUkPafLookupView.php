@@ -40,7 +40,7 @@ class AddressUkPafLookupView extends ControlView
             new TextBox("Line2"),
             new TextBox("Town"),
             new TextBox("County"),
-            new TextBox("PostCode")
+            new TextBox("Postcode")
         );
 
         $countriesList = [];
@@ -79,7 +79,7 @@ class AddressUkPafLookupView extends ControlView
                 "Address Line 2" => "Line2",
                 "Town",
                 "County",
-                "PostCode"
+                "Postcode"
             ]);
             ?>
         </div>
