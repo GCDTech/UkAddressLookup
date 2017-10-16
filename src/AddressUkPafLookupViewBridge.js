@@ -29,7 +29,7 @@ bridge.prototype.attachEvents = function()
         line2 = self.findChildViewBridge('Line2'),
         town = self.findChildViewBridge('Town'),
         county = self.findChildViewBridge('County'),
-        postCode = self.findChildViewBridge('PostCode'),
+        postCode = self.findChildViewBridge('Postcode'),
         addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
 
     // hide spinner on loading
