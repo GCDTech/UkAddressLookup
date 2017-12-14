@@ -11,9 +11,9 @@ class AddressUkPafLookup extends CompositeControl
     /** @var AddressUkPafLookupModel $model */
     protected $model;
 
-    public function __construct($countryCode = null)
+    public function __construct($name = null, $initialiseModelBeforeView = null, $countryCode = null)
     {
-        parent::__construct(null, null);
+        parent::__construct($name, $initialiseModelBeforeView);
 
         if (isset($countryCode)) {
             $this->model->Country = $countryCode;
