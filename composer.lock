@@ -1,0 +1,618 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "98d9ee5cef00741d0266c5d5776ca628",
+    "packages": [
+        {
+            "name": "components/jquery",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "e5534d4ab8e80c159553d507e358ed20a806d3bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/e5534d4ab8e80c159553d507e358ed20a806d3bf",
+                "reference": "e5534d4ab8e80c159553d507e358ed20a806d3bf",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.min.map",
+                        "jquery.slim.js",
+                        "jquery.slim.min.js",
+                        "jquery.slim.min.map"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JS Foundation and other contributors"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "time": "2017-03-21T07:01:49+00:00"
+        },
+        {
+            "name": "components/jqueryui",
+            "version": "1.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jqueryui.git",
+                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/44ecf3794cc56b65954cc19737234a3119d036cc",
+                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": ">=1.6"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "name": "jquery-ui",
+                    "scripts": [
+                        "jquery-ui.js"
+                    ],
+                    "files": [
+                        "ui/**",
+                        "themes/**",
+                        "jquery-ui.min.js"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ],
+                        "exports": "jQuery"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jQuery UI Team",
+                    "homepage": "http://jqueryui.com/about"
+                },
+                {
+                    "name": "Joern Zaefferer",
+                    "email": "joern.zaefferer@gmail.com",
+                    "homepage": "http://bassistance.de"
+                },
+                {
+                    "name": "Scott Gonzalez",
+                    "email": "scott.gonzalez@gmail.com",
+                    "homepage": "http://scottgonzalez.com"
+                },
+                {
+                    "name": "Kris Borchers",
+                    "email": "kris.borchers@gmail.com",
+                    "homepage": "http://krisborchers.com"
+                },
+                {
+                    "name": "Mike Sherov",
+                    "email": "mike.sherov@gmail.com",
+                    "homepage": "http://mike.sherov.com"
+                },
+                {
+                    "name": "TJ VanToll",
+                    "email": "tj.vantoll@gmail.com",
+                    "homepage": "http://tjvantoll.com"
+                },
+                {
+                    "name": "Corey Frang",
+                    "email": "gnarf37@gmail.com",
+                    "homepage": "http://gnarf.net"
+                },
+                {
+                    "name": "Felix Nagel",
+                    "email": "info@felixnagel.com",
+                    "homepage": "http://www.felixnagel.com"
+                }
+            ],
+            "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
+            "time": "2016-09-16T05:47:55+00:00"
+        },
+        {
+            "name": "firebase/php-jwt",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2016-07-18T04:51:16+00:00"
+        },
+        {
+            "name": "phpdocumentor/reflection-docblock",
+            "version": "2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
+                "reference": "e6a969a640b00d8daa3c66518b0405fb41ae0c4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/e6a969a640b00d8daa3c66518b0405fb41ae0c4b",
+                "reference": "e6a969a640b00d8daa3c66518b0405fb41ae0c4b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "dflydev/markdown": "~1.0",
+                "erusev/parsedown": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "phpDocumentor": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                }
+            ],
+            "time": "2016-01-25T08:17:30+00:00"
+        },
+        {
+            "name": "rhubarbphp/custard",
+            "version": "1.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RhubarbPHP/Custard.git",
+                "reference": "6dc357a82cda13d9ef9bb3e9aa2ed823bbcc3ee6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RhubarbPHP/Custard/zipball/6dc357a82cda13d9ef9bb3e9aa2ed823bbcc3ee6",
+                "reference": "6dc357a82cda13d9ef9bb3e9aa2ed823bbcc3ee6",
+                "shasum": ""
+            },
+            "require": {
+                "phpdocumentor/reflection-docblock": "^2.0.4",
+                "symfony/console": ">=2.7.5"
+            },
+            "bin": [
+                "bin/custard",
+                "bin/vcustard"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rhubarb\\Custard\\": "src/",
+                    "Rhubarb\\Custard\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Provides command line tools for Rhubarb projects.",
+            "homepage": "http://www.rhubarbphp.com/",
+            "keywords": [
+                "cli",
+                "command-line",
+                "custard",
+                "framework",
+                "php",
+                "rhubarb",
+                "tools"
+            ],
+            "time": "2017-01-09T16:06:24+00:00"
+        },
+        {
+            "name": "rhubarbphp/module-csrfprotection",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RhubarbPHP/Module.CsrfProtection.git",
+                "reference": "c622ae764f60c42403cc6eb2adc0ae09449bc341"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RhubarbPHP/Module.CsrfProtection/zipball/c622ae764f60c42403cc6eb2adc0ae09449bc341",
+                "reference": "c622ae764f60c42403cc6eb2adc0ae09449bc341",
+                "shasum": ""
+            },
+            "require": {
+                "rhubarbphp/rhubarb": "^1.3.18"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.0.0",
+                "codeception/specify": "^0.4.6",
+                "codeception/verify": "^0.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rhubarb\\Csrf\\": "src/",
+                    "Rhubarb\\Csrf\\Tests\\": "tests/unit/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "A means to provide token based CSRF protection",
+            "homepage": "http://www.rhubarbphp.com/",
+            "keywords": [
+                "csrf",
+                "framework",
+                "php",
+                "protection",
+                "rhubarb",
+                "token"
+            ],
+            "time": "2017-11-20T10:36:53+00:00"
+        },
+        {
+            "name": "rhubarbphp/module-jsvalidation",
+            "version": "1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RhubarbPHP/Module.JsValidation.git",
+                "reference": "5f873919968066a44da83bcdea562599a6d025ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RhubarbPHP/Module.JsValidation/zipball/5f873919968066a44da83bcdea562599a6d025ef",
+                "reference": "5f873919968066a44da83bcdea562599a6d025ef",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "description": "Provides javascript validation patterns for HTML forms",
+            "time": "2017-08-17T14:34:15+00:00"
+        },
+        {
+            "name": "rhubarbphp/module-leaf",
+            "version": "1.3.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RhubarbPHP/Module.Leaf.git",
+                "reference": "d4712b026a6f3d0a928a67363ae105ee779c1aa1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RhubarbPHP/Module.Leaf/zipball/d4712b026a6f3d0a928a67363ae105ee779c1aa1",
+                "reference": "d4712b026a6f3d0a928a67363ae105ee779c1aa1",
+                "shasum": ""
+            },
+            "require": {
+                "rhubarbphp/custard": "^1.0.9",
+                "rhubarbphp/module-csrfprotection": "^1.0.0",
+                "rhubarbphp/module-jsvalidation": "^1.0.0",
+                "rhubarbphp/rhubarb": "^1.1.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.0.0",
+                "pdepend/pdepend": "^2.0.0",
+                "phploc/phploc": "^3.0.0",
+                "phpmd/phpmd": "^2.0.0",
+                "rhubarbphp/module-build-status-updater": "^1.0.5",
+                "sebastian/phpcpd": "^2.0.0",
+                "squizlabs/php_codesniffer": "^2.0.0",
+                "tan-tan-kanarek/github-php-client": "^1.0.0",
+                "theseer/phpdox": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rhubarb\\Leaf\\": "src/",
+                    "Rhubarb\\Leaf\\Tests\\": "tests/unit/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "A nestable user interface building module for the Rhubarb PHP framework based upon the model-view-presenter pattern.",
+            "homepage": "http://www.rhubarbphp.com/",
+            "keywords": [
+                "framework",
+                "leaf",
+                "mvp",
+                "php",
+                "presenter",
+                "rhubarb"
+            ],
+            "time": "2017-11-29T15:18:28+00:00"
+        },
+        {
+            "name": "rhubarbphp/module-leaf-common-controls",
+            "version": "1.0.36",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RhubarbPHP/Module.Leaf.CommonControls.git",
+                "reference": "deaf82986045a130ecb0743990742ade755aa845"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RhubarbPHP/Module.Leaf.CommonControls/zipball/deaf82986045a130ecb0743990742ade755aa845",
+                "reference": "deaf82986045a130ecb0743990742ade755aa845",
+                "shasum": ""
+            },
+            "require": {
+                "rhubarbphp/module-leaf": "^1.1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rhubarb\\Leaf\\Controls\\Common\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Common form control leaves for the leaf module of Rhubarb",
+            "homepage": "http://www.rhubarbphp.com/",
+            "keywords": [
+                "framework",
+                "leaf",
+                "mvp",
+                "php",
+                "presenter",
+                "rhubarb"
+            ],
+            "time": "2017-09-05T11:48:57+00:00"
+        },
+        {
+            "name": "rhubarbphp/rhubarb",
+            "version": "1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RhubarbPHP/Rhubarb.git",
+                "reference": "206780187df6f00b47d1b9b56db6d9ff982e79a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RhubarbPHP/Rhubarb/zipball/206780187df6f00b47d1b9b56db6d9ff982e79a3",
+                "reference": "206780187df6f00b47d1b9b56db6d9ff982e79a3",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^4.0",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.0.0",
+                "pdepend/pdepend": "^2.0.0",
+                "phploc/phploc": "^3.0.0",
+                "phpmd/phpmd": "^2.0.0",
+                "rhubarbphp/custard": "^1.0.9",
+                "rhubarbphp/module-build-status-updater": "^1.0.5",
+                "sebastian/phpcpd": "^2.0.0",
+                "squizlabs/php_codesniffer": "^2.0.0",
+                "theseer/phpdox": "0.8.1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rhubarb\\Crown\\": "src/",
+                    "Rhubarb\\Crown\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "A modern enterprise ready PHP framework",
+            "homepage": "http://www.rhubarbphp.com/",
+            "keywords": [
+                "framework",
+                "php"
+            ],
+            "time": "2017-12-04T16:31:21+00:00"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "2ff6acc1342a0e7c3ad757a80fd837f5b22535a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/2ff6acc1342a0e7c3ad757a80fd837f5b22535a1",
+                "reference": "2ff6acc1342a0e7c3ad757a80fd837f5b22535a1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.4",
+                "symfony/process": "<3.3"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/config": "~3.4|~4.0",
+                "symfony/dependency-injection": "~3.4|~4.0",
+                "symfony/event-dispatcher": "~3.4|~4.0",
+                "symfony/lock": "~3.4|~4.0",
+                "symfony/process": "~3.4|~4.0"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/lock": "",
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-12-04T12:31:58+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2017-10-11T12:05:26+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

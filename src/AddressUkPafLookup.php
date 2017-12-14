@@ -8,6 +8,18 @@ class AddressUkPafLookup extends CompositeControl
 {
     const pafServerUrl = "http://paf.gcdtech.com/paf-data.php?simple=1&api=2&output=json";
 
+    /** @var AddressUkPafLookupModel $model */
+    protected $model;
+
+    public function __construct($countryCode = null)
+    {
+        parent::__construct(null, null);
+
+        if (isset($countryCode)) {
+            $this->model->Country = $countryCode;
+        }
+    }
+
     protected function getViewClass()
     {
         return AddressUkPafLookupView::class;

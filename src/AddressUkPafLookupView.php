@@ -14,6 +14,9 @@ class AddressUkPafLookupView extends ControlView
     protected $requiresContainerDiv = true;
     protected $requiresStateInput = true;
 
+    /** @var AddressUkPafLookupModel $model */
+    protected $model;
+
     public function getDeploymentPackage()
     {
         return new LeafDeploymentPackage(
@@ -43,10 +46,7 @@ class AddressUkPafLookupView extends ControlView
             new TextBox("Postcode")
         );
 
-        $countriesList = [];
-        foreach (Country::getCountriesList() as $key => $value) {
-            $countriesList[] = [$key, $value];
-        }
+        $countriesList = Country::getCountriesList();
         $country->setSelectionItems([["", "Please select..."], $countriesList]);
         $postCodeSearch->setPlaceholderText("Postcode");
         $houseNumber->setPlaceholderText("No.");
@@ -74,12 +74,20 @@ class AddressUkPafLookupView extends ControlView
         <p class="search-address-link _help"><b><a href='#'>Search again</a></b></p>
         <div class="manual-fields">
             <?php
+
+            $countyLabel = "County";
+            $postcodeLabel = "Postcode";
+            if ($this->model->Country == "US") {
+                $countyLabel = "State";
+                $postcodeLabel = "Zip Code";
+            }
+
             $this->layoutItemsWithContainer("", [
                 "Address Line 1" => "Line1",
                 "Address Line 2" => "Line2",
                 "Town",
-                "County",
-                "Postcode"
+                $countyLabel => "County",
+                $postcodeLabel => "Postcode"
             ]);
             ?>
         </div>
