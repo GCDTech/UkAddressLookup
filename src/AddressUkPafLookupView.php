@@ -46,7 +46,11 @@ class AddressUkPafLookupView extends ControlView
             new TextBox("Postcode")
         );
 
-        $countriesList = Country::getCountriesList();
+        $countriesList = [];
+        foreach (Country::getCountriesList() as $key => $value) {
+            $countriesList[] = [$key, $value];
+        }
+
         $country->setSelectionItems([["", "Please select..."], $countriesList]);
         $postCodeSearch->setPlaceholderText("Postcode");
         $houseNumber->setPlaceholderText("No.");
