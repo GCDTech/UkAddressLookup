@@ -61,8 +61,6 @@ class AddressUkPafLookup extends CompositeControl
         });
     }
 
-
-
     protected function createCompositeValue()
     {
         return [
@@ -86,7 +84,7 @@ class AddressUkPafLookup extends CompositeControl
 
         foreach($props as $prop){
             if (isset($compositeValue[$prop])){
-                $this->$prop = $compositeValue[$prop];
+                $this->model->$prop = $compositeValue[$prop];
             }
         }
     }
