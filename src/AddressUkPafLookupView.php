@@ -65,13 +65,13 @@ class AddressUkPafLookupView extends ControlView
 
                 return 'success';
             }, true),
-            $pafFields[] = new TextBox('Organisation', 50),
-            $pafFields[] = new TextBox('AddressLine1', 50),
-            $pafFields[] = new TextBox('AddressLine2', 30),
-            $pafFields[] = new TextBox('AddressLine3', 30),
-            $pafFields[] = new TextBox('Town', 30),
-            $pafFields[] = new TextBox('County', 20),
-            $pafFields[] = new TextBox('Postcode', 10)
+            $pafField[] = $this->createPafInput('Organisation'),
+            $pafField[] = $this->createPafInput('AddressLine1'),
+            $pafField[] = $this->createPafInput('AddressLine2'),
+            $pafField[] = $this->createPafInput('AddressLine3'),
+            $pafField[] = $this->createPafInput('Town'),
+            $pafField[] = $this->createPafInput('County'),
+            $pafField[] = $this->createPafInput('Postcode')
         );
 
         foreach ($pafFields as $pafField) {
@@ -92,6 +92,26 @@ class AddressUkPafLookupView extends ControlView
         $country->setSelectionItems([['', 'Please select...'], $countriesList]);
         $postcodeSearch->setPlaceholderText('Postcode');
         $houseNumber->setPlaceholderText('No.');
+    }
+
+    protected function createPafInput($fieldName)
+    {
+        switch($fieldName){
+            case 'Organisation':
+            case 'AddressLine1':
+                $size = 50;
+                break;
+            case 'County':
+                $size = 20;
+                break;
+            case 'Postcode':
+                $size = 10;
+                break;
+            default:
+                $size = 30;
+                break;
+        }
+        return new TextBox($fieldName, $size);
     }
 
     public function printViewContent()
