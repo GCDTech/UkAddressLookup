@@ -88,4 +88,14 @@ class AddressUkPafLookup extends CompositeControl
             }
         }
     }
+
+    public function getCompositeValue()
+    {
+        return $this->createCompositeValue();
+    }
+
+    public function setCompositeValue($values)
+    {
+        $this->parseCompositeValue($values);
+    }
 }

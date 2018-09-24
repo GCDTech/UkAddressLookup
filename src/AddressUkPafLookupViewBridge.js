@@ -35,6 +35,15 @@ bridge.prototype.attachEvents = function()
     // hide spinner on loading
     spinnerGif.hide();
 
+    if (country.getValue() != 'GB') {
+        showAddressFields();
+        searchLink.hide();
+    } else {
+        showSearchFields()
+        searchError.hide();
+    }
+
+
     // if the's a post code we suppose that there's an address set
     if (postCode.viewNode.value != '') {
         showAddressFields();
@@ -42,14 +51,6 @@ bridge.prototype.attachEvents = function()
         // default configuration
         manualAddressElements.hide();
         searchLink.hide();
-        searchError.hide();
-    }
-
-    if (country.getValue() != 'GB') {
-        showAddressFields();
-        searchLink.hide();
-    } else {
-        showSearchFields()
         searchError.hide();
     }
 
