@@ -6,8 +6,7 @@ var bridge = function(leafPath)
 bridge.prototype = new window.rhubarb.viewBridgeClasses.ViewBridge();
 bridge.prototype.constructor = bridge;
 
-bridge.prototype.attachEvents = function()
-{
+bridge.prototype.attachEvents = function() {
 
     var self = this,
         alertClass = "c-alert",
@@ -19,18 +18,21 @@ bridge.prototype.attachEvents = function()
         houseNumber = self.findChildViewBridge('HouseNumber'),
         postCodeSearch = self.findChildViewBridge('PostCodeSearch'),
         searchError = $(".search-error"),
+        searchResultsBlock = $(".search-results"),
         searchResultsMsg = $(".search-results-msg"),
         resultItemsList = $(".search-results-items"),
         spinnerGif = $('.spinner'),
         searchButton = self.findChildViewBridge('Search'),
         country = self.findChildViewBridge('Country'),
-    // address fields
+        // address fields
         line1 = self.findChildViewBridge('Line1'),
         line2 = self.findChildViewBridge('Line2'),
         town = self.findChildViewBridge('Town'),
         county = self.findChildViewBridge('County'),
         postCode = self.findChildViewBridge('Postcode'),
         addressProperties = ['AddressLine1', 'AddressLine2', 'Town', 'County', 'Postcode'];
+
+    searchResultsBlock.hide();
 
     // hide spinner on loading
     spinnerGif.hide();
@@ -54,24 +56,22 @@ bridge.prototype.attachEvents = function()
     }
 
     // address manual entry
-    insertManualAddressLink.click(function()
-    {
+    insertManualAddressLink.click(function () {
         searchResultsMsg.hide();
         showAddressFields();
         return false;
     });
     // search address
-    searchLink.click(function()
-    {
+    searchLink.click(function () {
         searchResultsMsg.hide();
         resultItemsList.empty();
         showSearchFields();
+        searchResultsBlock.hide();
         return false;
     });
 
     // if country changes and is different from uk show the manual entry
-    country.attachClientEventHandler("ValueChanged", function()
-    {
+    country.attachClientEventHandler("ValueChanged", function () {
         if (country.getValue() != 'GB') {
             showAddressFields();
             searchLink.hide();
@@ -82,8 +82,7 @@ bridge.prototype.attachEvents = function()
     });
 
     // search address
-    searchButton.attachClientEventHandler("OnButtonPressed", function()
-    {
+    searchButton.attachClientEventHandler("OnButtonPressed", function () {
         searchError.hide();
         spinnerGif.show();
         searchResultsMsg.removeClass(alertClass).empty();
@@ -95,10 +94,10 @@ bridge.prototype.attachEvents = function()
         }
 
         self.raiseServerEvent("searchPressed", houseNumber.viewNode.value, postCodeSearch.viewNode.value,
-            function(response)
-            {
+            function (response) {
                 spinnerGif.hide();
                 // single result fill address fields and fill them
+                searchResultsBlock.show();
                 if (response) {
                     if (response.length == 1) {
                         showAddressFields();
@@ -135,8 +134,7 @@ bridge.prototype.attachEvents = function()
     });
 
     // show fields for search an address
-    function showSearchFields()
-    {
+    function showSearchFields() {
         manualAddressPar.show();
         manualAddressElements.hide();
         searchAddressElement.show();
