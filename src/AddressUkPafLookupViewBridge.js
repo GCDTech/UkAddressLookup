@@ -36,24 +36,7 @@ bridge.prototype.attachEvents = function() {
 
     // hide spinner on loading
     spinnerGif.hide();
-
-    // if the's a post code we suppose that there's an address set
-    if (postCode.viewNode.value != '') {
-        showAddressFields();
-    } else {
-        // default configuration
-        manualAddressElements.hide();
-        searchLink.hide();
-        searchError.hide();
-    }
-
-    if (country.getValue() != 'GB') {
-        showAddressFields();
-        searchLink.hide();
-    } else {
-        showSearchFields()
-        searchError.hide();
-    }
+    showOrHideAddressFields();
 
     // address manual entry
     insertManualAddressLink.click(function () {
@@ -133,6 +116,32 @@ bridge.prototype.attachEvents = function() {
         return false;
     });
 
+    bridge.prototype.setAddress = function(data){
+        setAddressFields(data)
+        showOrHideAddressFields();
+    }
+
+    function showOrHideAddressFields()
+    {
+        if (country.getValue() != 'GB') {
+            showAddressFields();
+            searchLink.hide();
+        } else {
+            showSearchFields()
+            searchError.hide();
+        }
+
+        // if the's a post code we suppose that there's an address set
+        if (postCode.viewNode.value != '') {
+            showAddressFields();
+        } else {
+            // default configuration
+            manualAddressElements.hide();
+            searchLink.hide();
+            searchError.hide();
+        }
+    }
+
     // show fields for search an address
     function showSearchFields() {
         manualAddressPar.show();
@@ -167,6 +176,10 @@ bridge.prototype.attachEvents = function() {
 
         if (addressObj['County'] != undefined) {
             county.viewNode.value = addressObj['County'];
+        }
+
+        if (addressObj['Country'] != undefined) {
+            country.viewNode.value = addressObj['Country'];
         }
 
         if (addressObj['Postcode'] != undefined) {
