@@ -120,6 +120,15 @@ bridge.prototype.attachEvents = function() {
         setAddressFields(data)
         showOrHideAddressFields();
     }
+    
+    bridge.prototype.clearAddressFields = function () {
+        line1.viewNode.value = ''
+        line2.viewNode.value = ''
+        town.viewNode.value = ''
+        county.viewNode.value = ''
+        country.viewNode.value = ''
+        postCode.viewNode.value = ''
+    }
 
     function showOrHideAddressFields()
     {
