@@ -39,7 +39,7 @@ bridge.prototype.attachEvents = function()
         showAddressFields();
         searchLink.hide();
     } else {
-        showSearchFields()
+        showSearchFields();
         searchError.hide();
     }
 
@@ -49,7 +49,6 @@ bridge.prototype.attachEvents = function()
         showAddressFields();
     } else {
         // default configuration
-        manualAddressElements.hide();
         searchLink.hide();
         searchError.hide();
     }
